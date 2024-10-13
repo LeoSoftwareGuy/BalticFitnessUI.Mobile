@@ -1,3 +1,4 @@
+
 import {
   Client,
   Account,
@@ -29,12 +30,28 @@ const account = new Account(client);
 const avatars = new Avatars(client);
 const databases = new Databases(client);
 
-// Types for the createUser function
 interface CreateUserParams {
   email: string;
   password: string;
   username: string;
 }
+
+interface Document {
+    id: string;
+    title: string;
+    thumbnail: string;
+    prompt: string;
+    video: string;
+    creator: {
+      username: string;
+      email: string;
+      avatar: string;
+      accountId: string;
+    };
+  }
+  
+
+
 
 export const createUser = async ({
   email,
@@ -95,6 +112,7 @@ export const signIn = async (email: string, password: string) => {
 export const getCurrentUser = async () => {
   try {
     const currentLoggedUser = await account.get();
+    console.log(currentLoggedUser);
     if (!currentLoggedUser) throw Error;
 
     const currentUser = await databases.listDocuments(
@@ -104,8 +122,37 @@ export const getCurrentUser = async () => {
     );
 
     if (!currentUser) throw Error;
+    console.log(currentUser);
+    console.log(currentUser.documents[0]);
     return currentUser.documents[0];
   } catch (error) {
     console.log(error);
+    throw Error;
   }
 };
+
+// export const getAllPosts = async (): Promise<Post[]> => {
+//   try {
+//     const response  = await databases.listDocuments(
+//       appwriteConfig.databaseId,
+//       appwriteConfig.videoCollectionId
+//     );
+
+//     const posts: Post[] = response.documents.map((document: Document) => ({
+//         title: document.title,
+//         thumbnail: document.thumbnail,
+//         prompt: document.prompt,
+//         video: document.video,
+//         creator: {
+//           username: document.creator.username,
+//           email: document.creator.email,
+//           avatar: document.creator.avatar,
+//           accountId: document.creator.accountId,
+//         }
+//       }));
+
+//     return posts;
+//   } catch (error: any) {
+//     throw new Error(error.message);
+//   }
+// };
