@@ -56,7 +56,7 @@ Join our community of developers creating universal apps.
 
 MY OWN COMMENTS
 
-Shift + Control + F to refactor
+Shift + Command + F to refactor
 
 
 You need this
@@ -77,3 +77,6 @@ This basically renders screen inside some general page. WHere we can add header 
 
 Go through configuration
 https://www.nativewind.dev/quick-starts/expo
+
+
+// bundleId from the app. goes to app.json not sure if i need it for normal backend/

@@ -1,11 +1,12 @@
-import { ScrollView, Image, Text, View } from "react-native";
+import { ScrollView, Image, Text, View, Alert } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "../../constants";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
+import { createUser } from "../../lib/appwrite";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -15,10 +16,29 @@ const SignUp = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const Submit = () => {
-    // Cal to The API,
-    // We also need to save the responce (access token)
-    // Save this access token to zustand local storage and use with each request
+
+  const Submit = async () => {
+    // Ensure all fields are filled
+    if (!form.username || !form.email || !form.password) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const result = await createUser({
+        email: form.email,
+        password: form.password,
+        username: form.username,
+      });
+
+      // Redirect to home page upon successful sign-up
+      router.replace('/home');
+    } catch (error: any) {
+      Alert.alert("Error", error.message || "Account creation failed");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
