@@ -48,3 +48,32 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+
+
+
+
+
+MY OWN COMMENTS
+
+Shift + Control + F to refactor
+
+
+You need this
+/// <reference types="nativewind/types" /> in nativewind-env.d.ts file to be able to use tailwind className 
+
+This basically renders screen inside some general page. WHere we can add header and footer
+  <Stack>
+      <Stack.Screen name="index" options={{headerShown:false}} />
+    </Stack>
+
+
+
+1) npx create-expo-app ./
+2) npx expo install expo-router react-native-safe-area-context react-native-screens expo-linking expo-constants expo-status-bar
+3) npm i nativewind
+4) npm i --save-dev tailwindcss@3.3.2
+5) npx tailwindcss init
+
+Go through configuration
+https://www.nativewind.dev/quick-starts/expo
