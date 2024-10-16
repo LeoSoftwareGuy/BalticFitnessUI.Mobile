@@ -112,7 +112,6 @@ export const signIn = async (email: string, password: string) => {
 export const getCurrentUser = async () => {
   try {
     const currentLoggedUser = await account.get();
-    console.log(currentLoggedUser);
     if (!currentLoggedUser) throw Error;
 
     const currentUser = await databases.listDocuments(
@@ -122,8 +121,6 @@ export const getCurrentUser = async () => {
     );
 
     if (!currentUser) throw Error;
-    console.log(currentUser);
-    console.log(currentUser.documents[0]);
     return currentUser.documents[0];
   } catch (error) {
     console.log(error);

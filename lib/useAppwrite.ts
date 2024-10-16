@@ -1,17 +1,15 @@
-
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { getAllPosts, VideoData } from "./getPosts";
 
-const useAppwrite = () => {
-  const [data, setData] = useState<VideoData[]>([]);
+const useAppwrite = <T>(fetchFunction: () => Promise<T[]>) => {
+  const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {
     setIsLoading(true);
 
     try {
-      const response = await getAllPosts();
+      const response = await fetchFunction();
       setData(response);
     } catch (error: any) {
       Alert.alert("Error", error.message);
@@ -22,7 +20,6 @@ const useAppwrite = () => {
 
   useEffect(() => {
     fetchData(); 
-    console.log(data);
   }, []);
 
   const refetch = () => fetchData();

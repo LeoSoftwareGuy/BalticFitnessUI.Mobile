@@ -2,6 +2,7 @@ import {
     Client,
     Databases,
     Models,
+    Query,
   } from "react-native-appwrite";
 import { appwriteConfig } from "./appwrite";
   
@@ -41,12 +42,16 @@ export interface Creator {
   const databases = new Databases(client);
 
 
- export async function getAllPosts(): Promise<VideoData[]> {
-  try {
-    const posts = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.videoCollectionId
-    );
+ export async function getLatestPosts(): Promise<VideoData[]> {
+    try {
+        const posts = await databases.listDocuments(
+          appwriteConfig.databaseId,
+          appwriteConfig.videoCollectionId,
+          [
+            Query.orderDesc('$createdAt'),
+            Query.limit(7)
+          ]
+        );
 
     // Map Models.Document to VideoData
     const videoDataArray: VideoData[] = posts.documents.map((document: Models.Document) => ({

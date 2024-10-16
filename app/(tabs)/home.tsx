@@ -14,13 +14,14 @@ import Trending from "@/components/Trending";
 import EmptyState from "@/components/EmptyState";
 import useAppwrite from "@/lib/useAppwrite";
 import VideoCard from "@/components/VideoCard";
-
-
+import { getAllPosts } from "@/lib/getPosts";
+import { getLatestPosts } from "@/lib/getLatestPosts";
 
 const Home = () => {
   const [searchingFor, setSearchingFor] = useState("");
   const [refreshing, setRefreshing] = useState(false);
-  const {data:posts, refetch} = useAppwrite();
+  const { data: posts, refetch } = useAppwrite(getAllPosts);
+  const { data: latestPosts } = useAppwrite(getLatestPosts);
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -35,9 +36,7 @@ const Home = () => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id.toString()}
-        renderItem={({ item }) => (
-          <VideoCard video={item}/>
-        )}
+        renderItem={({ item }) => <VideoCard video={item} />}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 space-y-6">
             <View className="mb-6 flex-row items-start justify-between">
@@ -63,7 +62,7 @@ const Home = () => {
               <Text className="mb-3 text-gray-100 text-lg font-pregular">
                 Latest Videos
               </Text>
-              <Trending posts={[{ id: 1 }, { id: 2 }, { id: 3 }]} />
+              <Trending posts={latestPosts} />
             </View>
           </View>
         )}
