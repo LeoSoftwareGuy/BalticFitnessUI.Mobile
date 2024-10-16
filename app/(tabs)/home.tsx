@@ -12,50 +12,20 @@ import { images } from "../../constants";
 import SearchInput from "@/components/SearchInput";
 import Trending from "@/components/Trending";
 import EmptyState from "@/components/EmptyState";
-import {getAllPosts} from '../../lib/getPosts'
-
-export interface VideoData {
-  $collectionId: string;
-  $createdAt: string;
-  $databaseId: string;
-  $id: string;
-  $permissions: any[];
-  $updatedAt: string;
-  creator: string | null; 
-  prompt: string;
-  thumbnail: string;
-  title: string;
-  video: string;
-}
+import useAppwrite from "@/lib/useAppwrite";
+import VideoCard from "@/components/VideoCard";
 
 
 
 const Home = () => {
   const [searchingFor, setSearchingFor] = useState("");
   const [refreshing, setRefreshing] = useState(false);
-  const [data, setData] = useState<VideoData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-   useEffect(() => {
-   const fetchData = async () => {
-      setIsLoading(true);
-      try {
-       const response = await getAllPosts();
-      setData(response);
-     } catch (error:any) {
-      Alert.alert("Error", error.message);
-     } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData(); // we cant just do await getAllPosts();, because we cant call async methods in useEffect, we need to declare them inside.
-    console.log(data);
- }, []);
+  const {data:posts, refetch} = useAppwrite();
 
   const onRefresh = async () => {
     setRefreshing(true);
 
-    // recall videos api to get latest results
+    await refetch();
     setRefreshing(false);
   };
 
@@ -63,10 +33,10 @@ const Home = () => {
   return (
     <SafeAreaView className="h-full bg-primary">
       <FlatList
-        data={[{ id: 1 }, { id: 2 }, { id: 3 }]}
-        keyExtractor={(item) => item.id.toString()}
+        data={posts}
+        keyExtractor={(item) => item.$id.toString()}
         renderItem={({ item }) => (
-          <Text className="text-3xl text-white">{item.id}</Text>
+          <VideoCard video={item}/>
         )}
         ListHeaderComponent={() => (
           <View className="my-6 px-4 space-y-6">

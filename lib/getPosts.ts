@@ -8,7 +8,6 @@ import {
     Models,
   } from "react-native-appwrite";
   
-  import {VideoData} from '../app/(tabs)/home'
   export const appwriteConfig = {
     endpoint: "https://cloud.appwrite.io/v1",
     platform: "com.leo.aora",
@@ -19,6 +18,21 @@ import {
     storageId: "670b9a1500235980efd7",
   };
   
+export interface VideoData {
+  $collectionId: string;
+  $createdAt: string;
+  $databaseId: string;
+  $id: string;
+  $permissions: any[];
+  $updatedAt: string;
+  creator: string | null; 
+  prompt: string;
+  thumbnail: string;
+  title: string;
+  video: string;
+}
+
+
   // Init your React Native SDK
   const client = new Client();
   
