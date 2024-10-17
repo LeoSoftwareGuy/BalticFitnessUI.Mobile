@@ -18,7 +18,6 @@ import { getAllPosts } from "@/lib/getPosts";
 import { getLatestPosts } from "@/lib/getLatestPosts";
 
 const Home = () => {
-  const [searchingFor, setSearchingFor] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const { data: posts, refetch } = useAppwrite(getAllPosts);
   const { data: latestPosts } = useAppwrite(getLatestPosts);
@@ -57,7 +56,7 @@ const Home = () => {
               </View>
             </View>
 
-            <SearchInput value={searchingFor} handleChangeText={Search} />
+            <SearchInput />
             <View className="pt-1 pb-8 flex-1 w-full">
               <Text className="mb-3 text-gray-100 text-lg font-pregular">
                 Latest Videos

@@ -5,31 +5,8 @@ import {
     Query,
   } from "react-native-appwrite";
 import { appwriteConfig } from "./appwrite";
+import { VideoData } from "./getPosts";
   
-
-export interface VideoData {
-  $collectionId: string;
-  $createdAt: string;
-  $databaseId: string;
-  $id: string;
-  $permissions: any[];
-  $updatedAt: string;
-  creator: Creator | null; 
-  prompt: string;
-  thumbnail: string;
-  title: string;
-  video: string;
-}
-
-export interface Creator {
-    username:string |null;
-    avatar:string |null;
-    emai:string,
-    accountId:string;
-    $createdAt: string;
-    $updatedAt: string;
-}
-
 
   // Init your React Native SDK
   const client = new Client();
