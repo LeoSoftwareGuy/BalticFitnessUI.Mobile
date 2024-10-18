@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { router, usePathname } from "expo-router";
 
 interface SeachInputProps {
-  initialQuery: string;
+  initialQuery?: string;
 }
 
 const SearchInput: React.FC<SeachInputProps> = ({ initialQuery }) => {

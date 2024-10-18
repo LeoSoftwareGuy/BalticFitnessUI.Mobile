@@ -9,10 +9,11 @@ import {
 import React, { useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 import * as Animatable from "react-native-animatable";
-import { VideoData } from "@/lib/getLatestPosts";
+
 import { CustomAnimation } from "react-native-animatable";
 import icons from "@/constants/icons";
 import { ResizeMode, Video } from "expo-av";
+import { VideoData } from "@/lib/getPosts";
 
 interface TrendingProps {
   posts: VideoData[];

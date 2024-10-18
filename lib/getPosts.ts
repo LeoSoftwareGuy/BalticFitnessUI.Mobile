@@ -23,7 +23,7 @@ export interface VideoData {
 export interface Creator {
     username:string |null;
     avatar:string |null;
-    emai:string,
+    email:string,
     accountId:string;
     $createdAt: string;
     $updatedAt: string;

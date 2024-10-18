@@ -1,4 +1,3 @@
-
 import {
   Client,
   Account,
@@ -37,21 +36,18 @@ interface CreateUserParams {
 }
 
 interface Document {
-    id: string;
-    title: string;
-    thumbnail: string;
-    prompt: string;
-    video: string;
-    creator: {
-      username: string;
-      email: string;
-      avatar: string;
-      accountId: string;
-    };
-  }
-  
-
-
+  id: string;
+  title: string;
+  thumbnail: string;
+  prompt: string;
+  video: string;
+  creator: {
+    username: string;
+    email: string;
+    avatar: string;
+    accountId: string;
+  };
+}
 
 export const createUser = async ({
   email,
@@ -109,6 +105,15 @@ export const signIn = async (email: string, password: string) => {
   }
 };
 
+export const signOut = async () => {
+  try {
+    const session = await account.deleteSession("current");
+    return session;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
 export const getCurrentUser = async () => {
   try {
     const currentLoggedUser = await account.get();
@@ -127,29 +132,3 @@ export const getCurrentUser = async () => {
     throw Error;
   }
 };
-
-// export const getAllPosts = async (): Promise<Post[]> => {
-//   try {
-//     const response  = await databases.listDocuments(
-//       appwriteConfig.databaseId,
-//       appwriteConfig.videoCollectionId
-//     );
-
-//     const posts: Post[] = response.documents.map((document: Document) => ({
-//         title: document.title,
-//         thumbnail: document.thumbnail,
-//         prompt: document.prompt,
-//         video: document.video,
-//         creator: {
-//           username: document.creator.username,
-//           email: document.creator.email,
-//           avatar: document.creator.avatar,
-//           accountId: document.creator.accountId,
-//         }
-//       }));
-
-//     return posts;
-//   } catch (error: any) {
-//     throw new Error(error.message);
-//   }
-// };
