@@ -7,15 +7,16 @@ import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
 import { Link, router } from "expo-router";
 import { createUser } from "../../lib/appwrite";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const SignUp = () => {
+  const { setUser, setIsLoggedIn } = useGlobalContext();
   const [form, setForm] = useState({
     username: "",
     email: "",
     password: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
 
   const Submit = async () => {
     // Ensure all fields are filled
@@ -33,7 +34,9 @@ const SignUp = () => {
       });
 
       // Redirect to home page upon successful sign-up
-      router.replace('/home');
+      setUser(result);
+      setIsLoggedIn(true);
+      router.replace("/home");
     } catch (error: any) {
       Alert.alert("Error", error.message || "Account creation failed");
     } finally {

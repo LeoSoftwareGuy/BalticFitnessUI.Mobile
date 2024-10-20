@@ -16,8 +16,12 @@ import useAppwrite from "@/lib/useAppwrite";
 import VideoCard from "@/components/VideoCard";
 import { getAllPosts } from "@/lib/getPosts";
 import { getLatestPosts } from "@/lib/getLatestPosts";
+import { useGlobalContext } from "@/context/GlobalProvider";
+import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheetComponent from "@/components/BottomSheetComponent";
 
 const Home = () => {
+  const { user, setUser, setIsLoggedIn } = useGlobalContext();
   const [refreshing, setRefreshing] = useState(false);
   const { data: posts, refetch } = useAppwrite(getAllPosts);
   const { data: latestPosts } = useAppwrite(getLatestPosts);
@@ -31,6 +35,7 @@ const Home = () => {
 
   const Search = () => {};
   return (
+    
     <SafeAreaView className="h-full bg-primary">
       <FlatList
         data={posts}
@@ -41,10 +46,10 @@ const Home = () => {
             <View className="mb-6 flex-row items-start justify-between">
               <View>
                 <Text className="text-sm text-gray-100 font-pmedium">
-                  Welcome Back
+                  Welcome Back,
                 </Text>
                 <Text className="text-2xl text-white font-psemibold">
-                  JSMastery
+                  {user?.username}
                 </Text>
               </View>
               <View className="mt-1.5">
@@ -75,6 +80,7 @@ const Home = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+
     </SafeAreaView>
   );
 };
