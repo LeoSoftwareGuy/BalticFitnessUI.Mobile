@@ -5,12 +5,12 @@ import {
   Agenda,
   DateData,
 } from "react-native-calendars";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import BottomSheetComponent from "@/components/BottomSheetComponent";
 import BottomSheet from "@gorhom/bottom-sheet";
 
 // Type for Exercise
-interface Exercise {
+export interface Exercise {
   id: string;
   muscleGroupId: number;
   name: string;
@@ -18,21 +18,25 @@ interface Exercise {
 }
 
 // Type for ExerciseSet
-interface ExerciseSet {
+export interface ExerciseSet {
   reps: number;
   weight: number;
   pre: number;
   exercise: Exercise;
 }
 
+export interface ExerciseGroupDto {
+  name: string;
+  id: string; 
+  exerciseSets: ExerciseSet[];
+}
 // Type for Training
-interface Training {
+export interface Training {
   trainedAtTime: string;
   trainedAtMonth: number;
   trainedAtDay: number;
   trainedAtYear: number;
-  muscleGroups: string[];
-  exerciseSets: ExerciseSet[];
+  exercisesPerMuscleGroup: Record<string, ExerciseGroupDto[]>;
 }
 
 const Bookmark = () => {
@@ -42,103 +46,580 @@ const Bookmark = () => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [selected, setSelected] = useState<string>(""); // to visually distinguish between other dates
   const [markedDates, setMarkedDates] = useState<{ [key: string]: any }>({});
-  const [selectedTraining, setSelectedTraining] = useState<Training | null>(null);
+  const [selectedTraining, setSelectedTraining] = useState<Training | null>(
+    null
+  );
 
+
+  //try more sets per exercise
+  // try more exercies per muscleGroup
+  // try more muscleGroups per training
   const allTrainings: Training[] = [
     {
       trainedAtTime: "09:38",
       trainedAtMonth: 10,
       trainedAtDay: 20,
       trainedAtYear: 2024,
-      muscleGroups: ["Shoulders"],
-      exerciseSets: [
-        {
-          reps: 10,
-          weight: 40,
-          pre: 8,
-          exercise: {
+      exercisesPerMuscleGroup: {
+        "Shoulders":[
+          {
+            name: "Arnold Press",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            muscleGroupId: 4,
-            name: "ArnoldPress",
-            imageUrl: "img/delts/ArnoldPress.jpg",
+            exerciseSets : [
+              {
+                reps: 10,
+                weight: 40,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Arnold Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 10,
+                weight: 45,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Arnold Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 15,
+                weight: 50,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Arnold Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
           },
-        },
-      ],
+          {
+            name: "Lateral Raises",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 20,
+                weight: 10,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Lateral Raises",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 15,
+                weight: 12,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Lateral Raises",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 10,
+                weight: 15,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Lateral Raises",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
+          },
+          {
+            name: "Rear Delts Cable Pull",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 20,
+                weight: 7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 15,
+                weight:  7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 10,
+                weight:  7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
+          }
+       
+        ]
+      }      
     },
     {
       trainedAtTime: "12:30",
       trainedAtMonth: 10,
       trainedAtDay: 18,
       trainedAtYear: 2024,
-      muscleGroups: ["Chest"],
-      exerciseSets: [
-        {
-          reps: 10,
-          weight: 10,
-          pre: 8,
-          exercise: {
-            id: "321d168b-3260-4660-a0c4-1b2f6c4cefa2",
-            muscleGroupId: 1,
-            name: "Dips",
-            imageUrl: "img/chest/Dips.jpg",
+      exercisesPerMuscleGroup: {
+        "Chest":[
+          {
+            name: "Bench Press",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 10,
+                weight: 80,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Bench Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 10,
+                weight: 80,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Bench Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 8,
+                weight: 80,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Bench Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
           },
-        },
-      ],
+          {
+            name: "Cable Chest Extensions",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 20,
+                weight: 20,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Cable Chest Extensions",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 20,
+                weight: 20,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Cable Chest Extensions",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 20,
+                weight: 20,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Cable Chest Extensions",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
+          },
+          {
+            name: "Rear Delts Cable Pull",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 20,
+                weight: 7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 15,
+                weight:  7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 10,
+                weight:  7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
+          }
+       
+        ]
+      }      
     },
     {
       trainedAtTime: "12:30",
       trainedAtMonth: 10,
       trainedAtDay: 10,
       trainedAtYear: 2024,
-      muscleGroups: ["Chest"],
-      exerciseSets: [
-        {
-          reps: 10,
-          weight: 89,
-          pre: 8,
-          exercise: {
-            id: "68e6b99d-a114-40d4-80c6-4452a814cfa7",
-            muscleGroupId: 1,
-            name: "CableCrossOver",
-            imageUrl: "img/chest/CableCrossOver.jpg",
+      exercisesPerMuscleGroup: {
+        "Shoulders":[
+          {
+            name: "Arnold Press",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 10,
+                weight: 40,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Arnold Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 10,
+                weight: 45,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Arnold Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 15,
+                weight: 50,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Arnold Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
           },
-        },
-      ],
+          {
+            name: "Lateral Raises",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 20,
+                weight: 10,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Lateral Raises",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 15,
+                weight: 12,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Lateral Raises",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 10,
+                weight: 15,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Lateral Raises",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
+          },
+          {
+            name: "Rear Delts Cable Pull",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 20,
+                weight: 7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 15,
+                weight:  7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 10,
+                weight:  7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
+          }   
+        ]
+      }      
     },
     {
       trainedAtTime: "12:30",
       trainedAtMonth: 9,
       trainedAtDay: 18,
       trainedAtYear: 2024,
-      muscleGroups: ["Chest"],
-      exerciseSets: [
-        {
-          reps: 7,
-          weight: 70,
-          pre: 7,
-          exercise: {
-            id: "3930435c-94fa-4a0c-8d46-5a59dae283e4",
-            muscleGroupId: 1,
-            name: "BenchPress",
-            imageUrl: "img/chest/BenchPress.jpg",
+      exercisesPerMuscleGroup: {
+        "Shoulders":[
+          {
+            name: "Arnold Press",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 10,
+                weight: 40,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Arnold Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 10,
+                weight: 45,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Arnold Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 15,
+                weight: 50,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Arnold Press",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
           },
-        },
-      ],
+          {
+            name: "Lateral Raises",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 20,
+                weight: 10,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Lateral Raises",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 15,
+                weight: 12,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Lateral Raises",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 10,
+                weight: 15,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Lateral Raises",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
+          },
+          {
+            name: "Rear Delts Cable Pull",
+            id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+            exerciseSets : [
+              {
+                reps: 20,
+                weight: 7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                }
+              },
+              {
+                reps: 15,
+                weight:  7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+              {
+                reps: 10,
+                weight:  7.5,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Rear Delts Cable Pull",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ]
+          }
+       
+        ]
+      }      
     },
   ];
+ 
+  const bottomSheetRef = useRef<BottomSheet>(null);
 
-const bottomSheetRef = useRef<BottomSheet>(null);
+  const getMonthName = ()=>{
+    switch(currentMonth){
+      case 1:return "January";       
+      case 2:  return "February";     
+      case 3: return "March";    
+      case 4:return "April";       
+      case 5: return "May";
+      case 6: return "June";
+      case 7: return "July";
+      case 8: return "August";
+      case 9: return "September";
+      case 10: return "October";
+      case 11: return "November";
+      case 12: return "December";
+    }
+  }
+  let date = `${selectedTraining?.trainedAtDay} ${getMonthName()} ${selectedTraining?.trainedAtYear}: ${selectedTraining?.trainedAtTime}`;
+  const expandBottomSheet = useCallback(() => {
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.expand();
+    }
+  }, []);
+
+  const closeBottomSheet = useCallback(() => {
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.close();
+    }
+  }, []);
+
+
   const selectTrainingDay = (day: DateData) => {
     setSelected(day.dateString);
-   
-    const trainingForDay = markedDates[day.dateString].training
+
+    const trainingForDay = markedDates[day.dateString].training;
     setSelectedTraining(trainingForDay);
-    console.log(day.dateString);
-    console.log(trainingForDay);
-    console.log(selected);
+
+   if (bottomSheetRef.current) {
+      // If the sheet is already open, close it first, then expand it with new data
+      closeBottomSheet();
+
+      setTimeout(() => {
+        expandBottomSheet(); // Ensure it expands after it closes
+      }, 300); // Adjust this delay to match the closing animation timing
+    } else {
+      expandBottomSheet(); // If the sheet isn't open, simply expand it
+    }
   };
 
-  
+  const onClose = () => closeBottomSheet();
+
   useEffect(() => {
     const newMarkedDates: { [key: string]: any } = {};
 
@@ -199,14 +680,22 @@ const bottomSheetRef = useRef<BottomSheet>(null);
               setCurrentMonth(month.month);
               setCurrentYear(month.year);
               setSelected("");
+              setSelectedTraining(null);
+              closeBottomSheet();
             }}
-            markedDates={{
-              ...markedDates           
-            }}
+            markedDates={{ ...markedDates }}
           />
-<BottomSheetComponent ref={bottomSheetRef} training ={selectedTraining} title='Your training that day' />
-          {/* {selectedTraining && <BottomSheetComponent ref={bottomSheetRef} training ={selectedTraining} title='Your training that day' />} */}
         </ScrollView>
+
+        {/* Bottom Sheet Component should be placed outside of ScrollView */}
+        {selectedTraining && (
+          <BottomSheetComponent
+            ref={bottomSheetRef}
+            training={selectedTraining}
+            title={date}
+            onClose={onClose}
+          />
+        )}
       </SafeAreaView>
     </>
   );
