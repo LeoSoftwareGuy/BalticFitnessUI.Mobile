@@ -586,7 +586,7 @@ const Bookmark = () => {
       case 12: return "December";
     }
   }
-  let date = `${selectedTraining?.trainedAtDay} ${getMonthName()} ${selectedTraining?.trainedAtYear}: ${selectedTraining?.trainedAtTime}`;
+  let date = `${selectedTraining?.trainedAtDay}.${currentMonth}.${selectedTraining?.trainedAtYear}`;
   const expandBottomSheet = useCallback(() => {
     if (bottomSheetRef.current) {
       bottomSheetRef.current.expand();

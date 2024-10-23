@@ -1,12 +1,13 @@
 import { StyleSheet, Text, Image } from "react-native";
-import React, { forwardRef, useCallback, useMemo, useRef } from "react";
+import React, { forwardRef } from "react";
 import BottomSheet, {
-  BottomSheetScrollView,
+  BottomSheetFlatList,
   BottomSheetView,
   TouchableOpacity,
 } from "@gorhom/bottom-sheet";
 import { icons } from "@/constants";
-import { ExerciseSet, Training } from "@/app/(tabs)/bookmark";
+import { Training } from "@/app/(tabs)/bookmark";
+import BottomSheetUniqueExercise from "./ForCalendar/BottomSheetUniqueExercise";
 
 interface Props {
   title: string;
@@ -16,70 +17,38 @@ interface Props {
 type Ref = BottomSheet;
 
 const BottomSheetComponent = forwardRef<Ref, Props>((props, ref) => {
+  const allUniqueExercises = Object.values(props.training.exercisesPerMuscleGroup).flat();
+
   return (
     <BottomSheet
       ref={ref}
       index={-1}
       snapPoints={["40%", "60%", "80%"]}
-      backgroundStyle={{ backgroundColor: "#fff" }}
-      handleIndicatorStyle={{ backgroundColor: "#fff" }}
+      backgroundStyle={{ backgroundColor: "#50C878" }} 
+      handleIndicatorStyle={{ backgroundColor: "#50C878" }}
     >
-      <BottomSheetView style={styles.bottomSheetContent}>
-        <TouchableOpacity style={styles.buttonsWrapper} onPress={props.onClose}>
-          <Image
-            source={icons.logout}
-            style={styles.closeIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <BottomSheetScrollView style={styles.contentContainer}>
-          <Text style={styles.containerHeadline}>{props.title}</Text>
-
-          <BottomSheetView style={styles.muscleGroupContainer}>
-            <Text style={styles.muscleGroupLabel}>Muscle Groups:</Text>
-            <Text style={styles.muscleGroupValue}>
-              {Object.keys(props.training.exercisesPerMuscleGroup).join(", ")}
-            </Text>
-          </BottomSheetView>
-
-          {/* Iterate through muscle groups */}
-          {Object.entries(props.training.exercisesPerMuscleGroup).map(
-            ([muscleGroup, exerciseGroups], idx) => (
-              <BottomSheetView key={idx} style={styles.exerciseGroupContainer}>
-                <Text style={styles.exerciseGroupTitle}>{muscleGroup}</Text>
-
-                {/* Iterate through exercises within each muscle group */}
-                {exerciseGroups.map((exerciseGroup, exerciseIdx) => (
-                  <BottomSheetView
-                    key={exerciseIdx}
-                    style={styles.exerciseContainer}
-                  >
-                    <Text style={styles.exerciseName}>
-                      {exerciseGroup.name}
-                    </Text>
-
-                    {/* Display individual sets in circles */}
-                    <BottomSheetView style={styles.setsContainer}>
-                      {exerciseGroup.exerciseSets.map(
-                        (set: ExerciseSet, setIdx: number) => (
-                          <BottomSheetView
-                            key={setIdx}
-                            style={styles.setCircle}
-                          >
-                            <Text style={styles.setText}>
-                              {set.reps} x {set.weight}kg
-                            </Text>
-                          </BottomSheetView>
-                        )
-                      )}
-                    </BottomSheetView>
-                  </BottomSheetView>
-                ))}
-              </BottomSheetView>
-            )
-          )}
-        </BottomSheetScrollView>
+      {/* Header with Emerald Background */}
+      <BottomSheetView style={styles.headerWrapper}>
+        <BottomSheetView style={styles.headerRow}>
+          <Text style={styles.headerTitle}>{props.title}</Text>
+          <Text style={styles.headerSubtitle}>Your workout</Text>
+          <TouchableOpacity style={styles.buttonsWrapper} onPress={props.onClose}>
+            <Image
+              source={icons.logout}
+              style={styles.closeIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        </BottomSheetView>
       </BottomSheetView>
+
+      {/* FlatList with Gray Background */}
+      <BottomSheetFlatList
+        data={allUniqueExercises}
+        renderItem={({ item }) => <BottomSheetUniqueExercise uniqueExercise={item} />}
+        keyExtractor={(exercise) => exercise.name}
+        contentContainerStyle={styles.contentContainer}
+      />
     </BottomSheet>
   );
 });
@@ -87,85 +56,38 @@ const BottomSheetComponent = forwardRef<Ref, Props>((props, ref) => {
 export default BottomSheetComponent;
 
 const styles = StyleSheet.create({
-  bottomSheetContent: {
-    flex: 1,
+  headerWrapper: {
+    backgroundColor: "#50C878", // Emerald green background for the top
+    paddingBottom: 17,
+  },
+  headerRow: {
+    paddingHorizontal: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+   
+  },
+  headerTitle: {
+    fontSize: 13,
+    fontWeight: "400",
+    color: "white",
+  },
+  headerSubtitle: {
+    fontSize: 25,
+    fontWeight: "500",
+    color: "white",
   },
   buttonsWrapper: {
+    paddingLeft:40,
     alignItems: "flex-end",
-    marginRight: 10,
-    marginTop: 10,
-  },
-  contentContainer: {
-    flexGrow: 1, // Ensure it takes up remaining space
-    padding: 20,
-  },
-  containerHeadline: {
-    fontSize: 24,
-    fontWeight: "600",
-    marginBottom: 10,
-    textAlign: "center",
   },
   closeIcon: {
     width: 25,
     height: 25,
   },
-  // Muscle Group Styling
-  muscleGroupContainer: {
-    marginBottom: 15,
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  muscleGroupLabel: {
-    fontSize: 20,
-    fontWeight: "600",
-  },
-  muscleGroupValue: {
-    fontSize: 20,
-    fontWeight: "600",
-    marginLeft: 5,
-  },
-
-  // Exercise Group Styling
-  exerciseGroupContainer: {
-    marginBottom: 20,
-  },
-  exerciseGroupTitle: {
-    fontSize: 19,
-    fontWeight: "600",
-    marginBottom: 5,
-  },
-
-  // Exercise and Sets Styling
-  exerciseContainer: {
-    marginBottom: 20,
-    marginLeft: 15,
-    paddingLeft: 10,
-    width: 350,
-    backgroundColor: "#5f7064",
-    borderRadius: 15,
-  },
-  exerciseName: {
-    marginVertical: 10,
-    fontSize: 18,
-    fontWeight: "500",
-  },
-  setsContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    columnGap: 10,
-  },
-  setCircle: {
-    marginBottom: 10,
-    paddingHorizontal: 15,
-    width: 100,
-    height: 30,
-    borderRadius: 25,
-    backgroundColor: "#e0e0e0", // Light background for the circle
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  setText: {
-    fontSize: 14,
-    fontWeight: "500",
+  contentContainer: {
+    flexGrow: 1,
+    backgroundColor: "#2C2C2C", // Gray background for the content below the header
+    paddingVertical: 20,
   },
 });

@@ -4,6 +4,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+         grayBackground:"#2C2C2C",
+         emerald:"",
+         graylight:"",
         primary: "#161622",
         secondary: {
           DEFAULT: "#FF9C01",
@@ -18,6 +21,7 @@ module.exports = {
         gray: {
           100: "#CDCDE0",
         },
+       
       },
       fontFamily: {
         pthin: ["Poppins-Thin", "sans-serif"],
