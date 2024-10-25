@@ -23,11 +23,11 @@ const EmptyState: React.FC<EmptyStateProps> = ({ title, subtitle }) => {
       </Text>
       <Text className="text-sm text-gray-100 font-pmedium">{subtitle}</Text>
 
-      <CustomButton
+      {/* <CustomButton
         title="Create video"
         handlePress={() => router.push("/create")}
         containerStyles="my-5 w-full"
-      />
+      /> */}
     </View>
   );
 };

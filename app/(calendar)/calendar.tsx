@@ -1,45 +1,11 @@
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
-import {
-  Calendar,
-  CalendarList,
-  Agenda,
-  DateData,
-} from "react-native-calendars";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import BottomSheetComponent from "@/components/BottomSheetComponent";
+import { Training } from "@/constants/types";
 import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheetComponent from "@/components/BottomSheetComponent";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { Calendar, DateData } from "react-native-calendars";
+import { SafeAreaView, ScrollView } from "react-native";
 
-// Type for Exercise
-export interface Exercise {
-  id: string;
-  muscleGroupId: number;
-  name: string;
-  imageUrl: string;
-}
-
-// Type for ExerciseSet
-export interface ExerciseSet {
-  reps: number;
-  weight: number;
-  pre: number;
-  exercise: Exercise;
-}
-
-export interface ExerciseGroupDto {
-  name: string;
-  id: string; 
-  exerciseSets: ExerciseSet[];
-}
-// Type for Training
-export interface Training {
-  trainedAtTime: string;
-  trainedAtMonth: number;
-  trainedAtDay: number;
-  trainedAtYear: number;
-  exercisesPerMuscleGroup: Record<string, ExerciseGroupDto[]>;
-}
-
-const Bookmark = () => {
+export default function CalendarPage() {
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth() + 1
   );
@@ -49,7 +15,6 @@ const Bookmark = () => {
   const [selectedTraining, setSelectedTraining] = useState<Training | null>(
     null
   );
-
 
   //try more sets per exercise
   // try more exercies per muscleGroup
@@ -61,11 +26,11 @@ const Bookmark = () => {
       trainedAtDay: 20,
       trainedAtYear: 2024,
       exercisesPerMuscleGroup: {
-        "Shoulders":[
+        Shoulders: [
           {
             name: "Arnold Press",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 10,
                 weight: 40,
@@ -75,7 +40,7 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Arnold Press",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 10,
@@ -99,12 +64,12 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
+            ],
           },
           {
             name: "Lateral Raises",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 20,
                 weight: 10,
@@ -114,7 +79,7 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Lateral Raises",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 15,
@@ -138,12 +103,12 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
+            ],
           },
           {
             name: "Rear Delts Cable Pull",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 20,
                 weight: 7.5,
@@ -153,11 +118,11 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Rear Delts Cable Pull",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 15,
-                weight:  7.5,
+                weight: 7.5,
                 pre: 8,
                 exercise: {
                   id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
@@ -168,7 +133,7 @@ const Bookmark = () => {
               },
               {
                 reps: 10,
-                weight:  7.5,
+                weight: 7.5,
                 pre: 8,
                 exercise: {
                   id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
@@ -177,11 +142,10 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
-          }
-       
-        ]
-      }      
+            ],
+          },
+        ],
+      },
     },
     {
       trainedAtTime: "12:30",
@@ -189,11 +153,11 @@ const Bookmark = () => {
       trainedAtDay: 18,
       trainedAtYear: 2024,
       exercisesPerMuscleGroup: {
-        "Chest":[
+        Chest: [
           {
             name: "Bench Press",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 10,
                 weight: 80,
@@ -203,7 +167,7 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Bench Press",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 10,
@@ -227,23 +191,12 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
+            ],
           },
           {
             name: "Cable Chest Extensions",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
-              {
-                reps: 20,
-                weight: 20,
-                pre: 8,
-                exercise: {
-                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-                  muscleGroupId: 4,
-                  name: "Cable Chest Extensions",
-                  imageUrl: "img/delts/ArnoldPress.jpg",
-                }
-              },
+            exerciseSets: [
               {
                 reps: 20,
                 weight: 20,
@@ -266,12 +219,23 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
+              {
+                reps: 20,
+                weight: 20,
+                pre: 8,
+                exercise: {
+                  id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
+                  muscleGroupId: 4,
+                  name: "Cable Chest Extensions",
+                  imageUrl: "img/delts/ArnoldPress.jpg",
+                },
+              },
+            ],
           },
           {
             name: "Rear Delts Cable Pull",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 20,
                 weight: 7.5,
@@ -281,11 +245,11 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Rear Delts Cable Pull",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 15,
-                weight:  7.5,
+                weight: 7.5,
                 pre: 8,
                 exercise: {
                   id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
@@ -296,7 +260,7 @@ const Bookmark = () => {
               },
               {
                 reps: 10,
-                weight:  7.5,
+                weight: 7.5,
                 pre: 8,
                 exercise: {
                   id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
@@ -305,11 +269,10 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
-          }
-       
-        ]
-      }      
+            ],
+          },
+        ],
+      },
     },
     {
       trainedAtTime: "12:30",
@@ -317,11 +280,11 @@ const Bookmark = () => {
       trainedAtDay: 10,
       trainedAtYear: 2024,
       exercisesPerMuscleGroup: {
-        "Shoulders":[
+        Shoulders: [
           {
             name: "Arnold Press",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 10,
                 weight: 40,
@@ -331,7 +294,7 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Arnold Press",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 10,
@@ -355,12 +318,12 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
+            ],
           },
           {
             name: "Lateral Raises",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 20,
                 weight: 10,
@@ -370,7 +333,7 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Lateral Raises",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 15,
@@ -394,12 +357,12 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
+            ],
           },
           {
             name: "Rear Delts Cable Pull",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 20,
                 weight: 7.5,
@@ -409,11 +372,11 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Rear Delts Cable Pull",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 15,
-                weight:  7.5,
+                weight: 7.5,
                 pre: 8,
                 exercise: {
                   id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
@@ -424,7 +387,7 @@ const Bookmark = () => {
               },
               {
                 reps: 10,
-                weight:  7.5,
+                weight: 7.5,
                 pre: 8,
                 exercise: {
                   id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
@@ -433,10 +396,10 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
-          }   
-        ]
-      }      
+            ],
+          },
+        ],
+      },
     },
     {
       trainedAtTime: "12:30",
@@ -444,11 +407,11 @@ const Bookmark = () => {
       trainedAtDay: 18,
       trainedAtYear: 2024,
       exercisesPerMuscleGroup: {
-        "Shoulders":[
+        Shoulders: [
           {
             name: "Arnold Press",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 10,
                 weight: 40,
@@ -458,7 +421,7 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Arnold Press",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 10,
@@ -482,12 +445,12 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
+            ],
           },
           {
             name: "Lateral Raises",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 20,
                 weight: 10,
@@ -497,7 +460,7 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Lateral Raises",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 15,
@@ -521,12 +484,12 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
+            ],
           },
           {
             name: "Rear Delts Cable Pull",
             id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-            exerciseSets : [
+            exerciseSets: [
               {
                 reps: 20,
                 weight: 7.5,
@@ -536,11 +499,11 @@ const Bookmark = () => {
                   muscleGroupId: 4,
                   name: "Rear Delts Cable Pull",
                   imageUrl: "img/delts/ArnoldPress.jpg",
-                }
+                },
               },
               {
                 reps: 15,
-                weight:  7.5,
+                weight: 7.5,
                 pre: 8,
                 exercise: {
                   id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
@@ -551,7 +514,7 @@ const Bookmark = () => {
               },
               {
                 reps: 10,
-                weight:  7.5,
+                weight: 7.5,
                 pre: 8,
                 exercise: {
                   id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
@@ -560,32 +523,15 @@ const Bookmark = () => {
                   imageUrl: "img/delts/ArnoldPress.jpg",
                 },
               },
-            ]
-          }
-       
-        ]
-      }      
+            ],
+          },
+        ],
+      },
     },
   ];
- 
+
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const getMonthName = ()=>{
-    switch(currentMonth){
-      case 1:return "January";       
-      case 2:  return "February";     
-      case 3: return "March";    
-      case 4:return "April";       
-      case 5: return "May";
-      case 6: return "June";
-      case 7: return "July";
-      case 8: return "August";
-      case 9: return "September";
-      case 10: return "October";
-      case 11: return "November";
-      case 12: return "December";
-    }
-  }
   let date = `${selectedTraining?.trainedAtDay}.${currentMonth}.${selectedTraining?.trainedAtYear}`;
   const expandBottomSheet = useCallback(() => {
     if (bottomSheetRef.current) {
@@ -599,14 +545,13 @@ const Bookmark = () => {
     }
   }, []);
 
-
   const selectTrainingDay = (day: DateData) => {
     setSelected(day.dateString);
 
     const trainingForDay = markedDates[day.dateString].training;
     setSelectedTraining(trainingForDay);
 
-   if (bottomSheetRef.current) {
+    if (bottomSheetRef.current) {
       // If the sheet is already open, close it first, then expand it with new data
       closeBottomSheet();
 
@@ -636,9 +581,10 @@ const Bookmark = () => {
       newMarkedDates[trainingDate] = {
         selected: trainingDate === selected,
         marked: true,
-        dotColor: "green",
         disableTouchEvent: false,
         training: training,
+        dotColor:"#2AB38E",
+     
       };
     });
 
@@ -647,23 +593,21 @@ const Bookmark = () => {
 
   return (
     <>
-      <SafeAreaView className="h-full bg-primary">
+      <SafeAreaView className="h-full bg-primary ">
         <ScrollView>
           <Calendar
-            style={{
-              borderWidth: 1,
-              borderColor: "gray",
-              height: 350,
-            }}
             theme={{
-              backgroundColor: "#ffffff",
-              calendarBackground: "#ffffff",
-              textSectionTitleColor: "#b6c1cd",
-              selectedDayBackgroundColor: "#00adf5",
+              calendarBackground: "transparent",
+              textSectionTitleColor: "#ffffff",
+              selectedDayBackgroundColor: "#2AB38E",
               selectedDayTextColor: "#ffffff",
-              todayTextColor: "#00adf5",
-              dayTextColor: "#2d4150",
-              textDisabledColor: "#d9e1e8",
+              todayTextColor: "#2AB38E",
+              dayTextColor: "#ffffff",
+              textDisabledColor: "transparent",
+              monthTextColor: "#2AB38E",
+              textMonthFontSize: 20,
+              arrowColor: "#ffffff",
+              textMonthFontFamily: "font-pRegular",
             }}
             disableMonthChange={false}
             current={`${currentYear}-${String(currentMonth).padStart(
@@ -699,6 +643,4 @@ const Bookmark = () => {
       </SafeAreaView>
     </>
   );
-};
-
-export default Bookmark;
+}

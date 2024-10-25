@@ -5,14 +5,8 @@ import { images } from "./../constants";
 import CustomButton from "@/components/CustomButton";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
-import { useGlobalContext } from "@/context/GlobalProvider";
 
 export default function App() {
-  const { isLoading, isLoggedIn } = useGlobalContext();
-
-  if (!isLoading && isLoggedIn){
-    return <Redirect href="/home" />;
-  } 
   return (
     <SafeAreaView className="h-full bg-primary">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -46,9 +40,9 @@ export default function App() {
           </Text>
 
           <CustomButton
-            title="Continue with Email"
+            title="Continue to Calendar"
             handlePress={() => {
-              router.push("/sign-in");
+              router.push("/calendar");
             }}
             containerStyles="mt-7 w-full"
           />

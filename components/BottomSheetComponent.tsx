@@ -6,8 +6,10 @@ import BottomSheet, {
   TouchableOpacity,
 } from "@gorhom/bottom-sheet";
 import { icons } from "@/constants";
-import { Training } from "@/app/(tabs)/bookmark";
 import BottomSheetUniqueExercise from "./ForCalendar/BottomSheetUniqueExercise";
+import { LinearGradient } from "expo-linear-gradient";
+import { Training } from "@/constants/types";
+
 
 interface Props {
   title: string;
@@ -24,14 +26,14 @@ const BottomSheetComponent = forwardRef<Ref, Props>((props, ref) => {
       ref={ref}
       index={-1}
       snapPoints={["40%", "60%", "80%"]}
-      backgroundStyle={{ backgroundColor: "#50C878" }} 
-      handleIndicatorStyle={{ backgroundColor: "#50C878" }}
+      handleIndicatorStyle={{ backgroundColor: "transparent" }} 
+      backgroundStyle={{ backgroundColor: "transparent" }}
     >
-      {/* Header with Emerald Background */}
-      <BottomSheetView style={styles.headerWrapper}>
+      {/* Header with Gradient */}
+      <LinearGradient colors={["#05251C", "#0E6149"]} style={styles.headerWrapper}>
         <BottomSheetView style={styles.headerRow}>
-          <Text style={styles.headerTitle}>{props.title}</Text>
-          <Text style={styles.headerSubtitle}>Your workout</Text>
+          <Text className="pl-3 text-base font-normal leading-5 text-white font-pRegular">{props.title}</Text>
+          <Text className="pl-4 text-2xl font-normal leading-6 text-white font-pText">Workout day</Text>
           <TouchableOpacity style={styles.buttonsWrapper} onPress={props.onClose}>
             <Image
               source={icons.logout}
@@ -40,13 +42,13 @@ const BottomSheetComponent = forwardRef<Ref, Props>((props, ref) => {
             />
           </TouchableOpacity>
         </BottomSheetView>
-      </BottomSheetView>
+      </LinearGradient>
 
       {/* FlatList with Gray Background */}
       <BottomSheetFlatList
         data={allUniqueExercises}
         renderItem={({ item }) => <BottomSheetUniqueExercise uniqueExercise={item} />}
-        keyExtractor={(exercise) => exercise.name}
+        keyExtractor={(exercise) => exercise.id}
         contentContainerStyle={styles.contentContainer}
       />
     </BottomSheet>
@@ -57,37 +59,36 @@ export default BottomSheetComponent;
 
 const styles = StyleSheet.create({
   headerWrapper: {
-    backgroundColor: "#50C878", // Emerald green background for the top
-    paddingBottom: 17,
+     paddingBottom: 30,
+     borderRadius:4,
+     position:'relative'
   },
   headerRow: {
     paddingHorizontal: 10,
+    paddingTop:24,
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-   
+    alignItems: "center"
   },
   headerTitle: {
-    fontSize: 13,
+    paddingLeft:15,
+    fontSize: 16,
     fontWeight: "400",
+    lineHeight:22,
     color: "white",
-  },
-  headerSubtitle: {
-    fontSize: 25,
-    fontWeight: "500",
-    color: "white",
+    fontFamily:'font-pRegular'
   },
   buttonsWrapper: {
-    paddingLeft:40,
-    alignItems: "flex-end",
+     position:"absolute",
+     top:3,
+     right:3
   },
   closeIcon: {
-    width: 25,
-    height: 25,
+    width: 15,
+    height: 15,
   },
   contentContainer: {
-    flexGrow: 1,
-    backgroundColor: "#2C2C2C", // Gray background for the content below the header
+    // flexGrow: 1,
+    backgroundColor: "#131313", // Gray background for the main BottomSheet area
     paddingVertical: 20,
   },
 });

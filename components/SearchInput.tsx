@@ -30,7 +30,7 @@ const SearchInput: React.FC<SeachInputProps> = ({ initialQuery }) => {
         onChangeText={(e) => setQuery(e)}
       />
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => {
           if (!query) {
             return Alert.alert(
@@ -45,7 +45,7 @@ const SearchInput: React.FC<SeachInputProps> = ({ initialQuery }) => {
         }}
       >
         <Image source={icons.search} className="w-5 h-5" resizeMode="contain" />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

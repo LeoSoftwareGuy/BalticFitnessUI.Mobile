@@ -4,35 +4,34 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-         grayBackground:"#2C2C2C",
-         emerald:"",
-         graylight:"",
-        primary: "#161622",
+        primary: "#131313",
+        emerald:'#2AB38E',
         secondary: {
           DEFAULT: "#FF9C01",
           100: "#FF9001",
           200: "#FF8E01",
-        },
-        black: {
-          DEFAULT: "#000",
-          100: "#1E1E2D",
-          200: "#232533",
-        },
-        gray: {
-          100: "#CDCDE0",
-        },
+        }
        
       },
       fontFamily: {
-        pthin: ["Poppins-Thin", "sans-serif"],
-        pextralight: ["Poppins-ExtraLight", "sans-serif"],
-        plight: ["Poppins-Light", "sans-serif"],
-        pregular: ["Poppins-Regular", "sans-serif"],
-        pmedium: ["Poppins-Medium", "sans-serif"],
-        psemibold: ["Poppins-SemiBold", "sans-serif"],
-        pbold: ["Poppins-Bold", "sans-serif"],
-        pextrabold: ["Poppins-ExtraBold", "sans-serif"],
-        pblack: ["Poppins-Black", "sans-serif"],
+        pText:["Righteous-Regular","sans-serif"],
+        pBlack:["Roboto-Black","sans-serif"],
+        pBold:["Roboto-Bold","sans-serif"],
+        pItalic:["Roboto-Italic","sans-serif"],
+        pMedium:["Roboto-Medium","sans-serif"],
+        pRegular:["Roboto-Regular","sans-serif"],
+        pThin:["Roboto-Thin","sans-serif"]
+      },
+      fontSize: {
+        base: '10px', // Set the base font size to 10px
+      },
+      spacing: {
+        // Define your custom spacing based on the new base size
+         '3': '30px',
+        '4': '40px', // 4 * 10px
+        '5': '50px', // 5 * 10px
+       
+        // Add any other spacing adjustments needed
       },
     },
   },

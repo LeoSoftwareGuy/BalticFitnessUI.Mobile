@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "MobileAppTutorial",
-    "slug": "MobileAppTutorial",
+    "name": "BalticFitnessUI",
+    "slug": "BalticFitnessUI",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "BalticFitnessUI",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
