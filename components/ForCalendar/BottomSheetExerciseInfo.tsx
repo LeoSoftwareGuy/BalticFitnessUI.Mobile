@@ -10,8 +10,8 @@ interface BottomSheetExerciseInfoProps {
 const BottomSheetExerciseInfo:React.FC<BottomSheetExerciseInfoProps> = ({reps,weight}) => {
   return (
     <BottomSheetView style={styles.setCircle}>
-      <Text style={styles.setText}>
-        {reps} x {weight}kg
+      <Text className='font-pText text-[12px] leading-[22px] font-normal'>
+        {reps} x {weight} kg
       </Text>
     </BottomSheetView>
   )
@@ -26,12 +26,8 @@ const styles = StyleSheet.create({
         width: 100,
         height: 30,
         borderRadius: 25,
-        backgroundColor: "#e0e0e0", // Light background for the circle
+        backgroundColor: "#e0e0e0",
         justifyContent: "center",
         alignItems: "center",
-      },
-      setText: {
-        fontSize: 14,
-        fontWeight: "500",
-      },
+      }
 })

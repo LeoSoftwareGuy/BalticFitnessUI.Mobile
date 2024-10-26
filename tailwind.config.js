@@ -30,7 +30,7 @@ module.exports = {
          '3': '30px',
         '4': '40px', // 4 * 10px
         '5': '50px', // 5 * 10px
-       
+        '16':'16px'
         // Add any other spacing adjustments needed
       },
     },
