@@ -26,7 +26,8 @@ module.exports = {
         base: '10px', // Set the base font size to 10px
       },
       spacing: {
-        // Define your custom spacing based on the new base size
+        '1':"10px",
+        '2':'20px',
          '3': '30px',
         '4': '40px', // 4 * 10px
         '5': '50px', // 5 * 10px

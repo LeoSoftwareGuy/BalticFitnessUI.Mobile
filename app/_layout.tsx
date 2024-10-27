@@ -37,7 +37,7 @@ const RootLayout = () => {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="index"  options={{ headerShown: false}} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(calendar)" options={{ headerShown: false }} />
       </Stack>

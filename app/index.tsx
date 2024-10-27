@@ -1,60 +1,60 @@
-import { Text, View, ScrollView, Image, Alert } from "react-native";
+import { Text, View, ScrollView, Image, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "./../constants";
-import CustomButton from "@/components/CustomButton";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
+import FitButton from "@/components/FItButton";
 
 export default function App() {
   return (
-    <SafeAreaView className="h-full bg-primary">
-      <ScrollView contentContainerStyle={{ height: "100%" }}>
-        <View className="px-4 w-full min-h-[85vh] justify-center items-center">
-          <Image
-            source={images.logo}
-            className="w-[130px] h-[84px]"
-            resizeMode="contain"
-          />
-          <Image
-            source={images.cards}
-            className="max-w-[380px] w-full h-[300px]"
-            resizeMode="contain"
-          />
-
-          <View className="relative mt-5">
-            <Text className="text-3xl text-center font-bold text-white">
-              Discover Endless Possibilitites with{" "}
-              <Text className="text-secondary-200">Aora</Text>
-            </Text>
+    <LinearGradient
+      colors={["#3F3F3F", "#151515"]}
+      start={{ x: 0.5, y: 0 }}
+      end={{ x: 0.5, y: 1 }}
+      locations={[0, 0.35]}
+      style={{ flex: 1 }} 
+    >
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ height: "100%" }}>
+          <View style={styles.headerWrapper}>
             <Image
-              source={images.path}
-              className="absolute w-[136px] h-[15px] -bottom-2 -right-8"
+              source={images.FitTrack}
               resizeMode="contain"
+              className="mt-5"
+            />
+            <Text className="mt-[24px] font-pText text-xl font-normal text-white">
+              Track Progress.{" "}
+            </Text>
+            <Text className="mb-[56px] font-pText text-xl font-normal text-white">
+                Crush Goals.
+              </Text>
+            <FitButton
+              title="Get Started"
+              handlePress={() => {
+                router.push("/calendar");
+              }}
+              containerStyles="w-full"
+            />
+            <Image
+              source={images.zyzz}
+              resizeMode="contain"
+              className="min-h-[400px]"
             />
           </View>
-
-          <Text className="mt-7 text-center text-sm text-gray-100 font-pregular">
-            Where creativity meets innovation: embark on a journey of limitless
-            exploration with Aora
-          </Text>
-
-          <CustomButton
-            title="Continue to Calendar"
-            handlePress={() => {
-              router.push("/calendar");
-            }}
-            containerStyles="mt-7 w-full"
-          />
-        </View>
-      </ScrollView>
-
-      <StatusBar backgroundColor="#161622" style="light" />
-    </SafeAreaView>
+        </ScrollView>
+        <StatusBar backgroundColor="#000000" style="dark" />
+      </SafeAreaView>
+    </LinearGradient>
   );
 }
 
-{
-  /* StatusBar is for the very top panel with time and battery of the phone */
-  /* <Link href='/(tabs)/home' className="text-blue-600">Go to Home</Link> */
-}
+const styles = StyleSheet.create({
+  headerWrapper: {
+    marginVertical: 0,
+    alignItems: "center",
+    paddingVertical: 0,
+    paddingHorizontal: 10,
+  },
+});
