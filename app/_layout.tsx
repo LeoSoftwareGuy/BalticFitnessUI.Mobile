@@ -15,7 +15,7 @@ const RootLayout = () => {
     "Roboto-Italic": require("../assets/fonts/Roboto-Italic.ttf"),
     "Roboto-Medium": require("../assets/fonts/Roboto-Medium.ttf"),
     "Roboto-Regular": require("../assets/fonts/Roboto-Regular.ttf"),
-    "Roboto-Thin": require("../assets/fonts/Roboto-Thin.ttf")
+    "Roboto-Thin": require("../assets/fonts/Roboto-Thin.ttf"),
   });
 
   useEffect(() => {
@@ -36,11 +36,11 @@ const RootLayout = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-        <Stack>
+      <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="(calendar)" options={{headerShown:false}} />
-        </Stack>
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(calendar)" options={{ headerShown: false }} />
+      </Stack>
     </GestureHandlerRootView>
   );
 };

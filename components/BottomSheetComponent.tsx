@@ -1,11 +1,10 @@
 import { StyleSheet, Text, Image } from "react-native";
-import React, { forwardRef } from "react";
+import React, { forwardRef, useCallback, useMemo } from "react";
 import BottomSheet, {
+  BottomSheetBackdrop,
   BottomSheetFlatList,
-  BottomSheetView,
-  TouchableOpacity,
+  BottomSheetView
 } from "@gorhom/bottom-sheet";
-import { icons } from "@/constants";
 import BottomSheetUniqueExercise from "./ForCalendar/BottomSheetUniqueExercise";
 import { LinearGradient } from "expo-linear-gradient";
 import { Training } from "@/constants/types";
@@ -20,27 +19,23 @@ type Ref = BottomSheet;
 
 const BottomSheetComponent = forwardRef<Ref, Props>((props, ref) => {
   const allUniqueExercises = Object.values(props.training.exercisesPerMuscleGroup).flat();
+  const snapPoints = useMemo(() => ["40%", "60%", "80%"], []);
+  const renderBackdrop = useCallback((props:any)=> <BottomSheetBackdrop appearsOnIndex={1} disappearsOnIndex={-1} {...props} />,[])
 
   return (
     <BottomSheet
       ref={ref}
       index={-1}
-      snapPoints={["40%", "60%", "80%"]}
+      snapPoints={snapPoints}
       handleIndicatorStyle={{ backgroundColor: "transparent" }} 
       backgroundStyle={{ backgroundColor: "transparent" }}
+      backdropComponent={renderBackdrop}
     >
       {/* Header with Gradient */}
       <LinearGradient colors={["#05251C", "#0E6149"]} style={styles.headerWrapper}>
         <BottomSheetView style={styles.headerRow}>
           <Text className="pl-3 text-base font-normal leading-5 text-white font-pRegular">{props.title}</Text>
           <Text className="pl-4 text-2xl font-normal leading-6 text-white font-pText">Workout day</Text>
-          <TouchableOpacity style={styles.buttonsWrapper} onPress={props.onClose}>
-            <Image
-              source={icons.logout}
-              style={styles.closeIcon}
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
         </BottomSheetView>
       </LinearGradient>
 
@@ -48,7 +43,7 @@ const BottomSheetComponent = forwardRef<Ref, Props>((props, ref) => {
       <BottomSheetFlatList
         data={allUniqueExercises}
         renderItem={({ item }) => <BottomSheetUniqueExercise uniqueExercise={item} />}
-        keyExtractor={(exercise) => exercise.id}
+        keyExtractor={(exercise,index) => index.toString()}
         contentContainerStyle={styles.contentContainer}
       />
     </BottomSheet>
