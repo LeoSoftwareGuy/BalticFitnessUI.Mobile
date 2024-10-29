@@ -1,16 +1,9 @@
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-} from "react-native";
+import { SafeAreaView, Image, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { StatusBar } from "expo-status-bar";
 import { images } from "@/constants";
-import OnBoardingComponent from "@/components/OnBoarding/OnBoarding";
+import OnBoardingComponent from "@/components/OnBoarding/OnBoardingComponent";
+import { router } from "expo-router";
 
 export default function onBoardingPage() {
   return (
@@ -22,27 +15,18 @@ export default function onBoardingPage() {
       style={{ flex: 1 }}
     >
       <SafeAreaView style={{ flex: 1 }}>
-        <ScrollView contentContainerStyle={{ height: "100%" }}>
-          <View style={styles.headerWrapper}>
-            <Image
-              source={images.FitTrack}
-              resizeMode="contain"
-              className="mt-5 mx-auto"
-            />
-            <OnBoardingComponent />
-          </View>
-        </ScrollView>
-        <StatusBar backgroundColor="#000000" style="dark" />
+        <Image
+          source={images.FitTrack}
+          resizeMode="contain"
+          className="mt-5 mx-auto"
+        />
+        <OnBoardingComponent />
+        <TouchableOpacity onPress={() => router.push("/home")}>
+          <Text className="pt-[10px] pb-[55px] font-pRegular text-[16px] text-center text-darkGray">
+            Skip
+          </Text>
+        </TouchableOpacity>
       </SafeAreaView>
     </LinearGradient>
   );
 }
-
-const styles = StyleSheet.create({
-  headerWrapper: {
-    marginVertical: 0,
-    alignItems: "flex-start",
-    paddingVertical: 0,
-    paddingHorizontal: 10,
-  },
-});

@@ -6,7 +6,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import React from "react";
-import { InformationProps } from "./OnBoarding";
+import { InformationProps } from "./OnBoardingComponent";
 
 interface PaginatorProps {
   data: InformationProps[];
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   dot: {
     height: 10,
     borderRadius: 5,
-    backgroundColor: "#493d8a",
+    backgroundColor: '#006F52',
     marginHorizontal: 8,
   },
 });
