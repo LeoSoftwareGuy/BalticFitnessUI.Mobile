@@ -22,17 +22,17 @@ const FormField: React.FC<FormFieldProps> = ({
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <View className={`space-y-2 ${otherStyles}`}>
-      <Text className="text-base text-gray-100 font-pmedium">{title}</Text>
+    <View className={`${otherStyles}`}>
       <View
-        className="px-4 flex-row items-center w-full h-16 bg-black-100 border-2
-       border-black-200 rounded-2xl focus:border-secondary"
+        className="py-[13px] pl-[17px] flex-row items-center w-full h-[48px]
+       bg-gray rounded-xl "
       >
         <TextInput
-          className="flex-1 text-white font-psemibold text-base"
+          className="flex-1 text-white font-pRegular text-[16px]"
           value={value}
           placeholder={placehorder}
-          placeholderTextColor="#7b7b8b"
+          placeholderTextColor="white"
+          selectionColor="#006F52"
           onChangeText={handleChangeText}
           secureTextEntry={title === "Password" && !showPassword}
         />

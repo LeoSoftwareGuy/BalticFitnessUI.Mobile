@@ -33,7 +33,7 @@ export default function App() {
             <FitButton
               title="Get Started"
               handlePress={() => {
-                router.push("/calendar");
+                router.push("/sign-in");
               }}
               containerStyles="w-full"
             />

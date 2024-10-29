@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormField from "@/components/FormField";
 import { router } from "expo-router";
 import { createUser } from "../../lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
@@ -21,22 +20,14 @@ import AgeSelect from "@/components/SelectComponents/AgeSelect";
 import GenderSelect from "@/components/SelectComponents/GenderSelect";
 
 interface FormState {
-  email: string;
-  password: string;
-  confirmPassword: string;
-  name: string;
   whereAreYouFrom: CountrySelectValue | null;
   age: string;
   gender: string;
 }
 
-const SignUp = () => {
+export default function Bio() {
   // const { setUser, setIsLoggedIn } = useGlobalContext();
   const [form, setForm] = useState<FormState>({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    name: "",
     whereAreYouFrom: null,
     age: "", // convert to int upon sending
     gender: "",
@@ -45,7 +36,7 @@ const SignUp = () => {
 
   const Submit = async () => {
     // Ensure all fields are filled
-    // if (!form.name || !form.email || !form.password) {
+    // if (!form.whereAreYouFrom || !form.age || !form.gender) {
     //   Alert.alert("Error", "Please fill in all fields");
     //   return;
     // }
@@ -61,7 +52,7 @@ const SignUp = () => {
       // Redirect to home page upon successful sign-up
       // setUser(result);
       // setIsLoggedIn(true);
-      router.push("/bio");
+      router.push("/onBoardingPage");
     } catch (error: any) {
       Alert.alert("Error", error.message || "Account creation failed");
     } finally {
@@ -80,74 +71,45 @@ const SignUp = () => {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ height: "100%" }}>
           <View style={styles.headerWrapper}>
-            <Text className="mt-[160px] text-emerald font-pText text-4xl font-normal">
-              Create account
-            </Text>
+            <View className="w-full">
+              <Text className="mt-[150px] text-center text-emerald font-pText text-4xl font-normal">
+                Create account
+              </Text>
+            </View>
 
-            <FormField
-              title="Email"
-              value={form.email}
-              handleChangeText={(e: string) => setForm({ ...form, email: e })}
-              otherStyles="mt-[36px]"
-              keyboardType="email-address"
-              placehorder="Email"
+            <AgeSelect
+              age={form.age}
+              onAgeChange={(e: string) => setForm({ ...form, age: e })}
             />
 
-            <FormField
-              title="Password"
-              value={form.password}
-              handleChangeText={(e: string) =>
-                setForm({ ...form, password: e })
+            <GenderSelect
+              selectedGender={form.gender}
+              onGenderChange={(e: string) => setForm({ ...form, gender: e })}
+            />
+
+            <CountrySelect
+              onChange={(e: CountrySelectValue) =>
+                setForm({ ...form, whereAreYouFrom: e })
               }
-              otherStyles="mt-[16px]"
-              keyboardType="email-password"
-              placehorder="Password"
-            />
-
-            <FormField
-              title="Confirm password"
-              value={form.confirmPassword}
-              handleChangeText={(e: string) =>
-                setForm({ ...form, confirmPassword: e })
-              }
-              otherStyles="mt-[16px]"
-              keyboardType="email-password"
-              placehorder="Confirm password"
-            />
-
-            <FormField
-              title="Name"
-              value={form.name}
-              handleChangeText={(e: string) => setForm({ ...form, name: e })}
-              otherStyles="mt-[16px]"
-              keyboardType=""
-              placehorder="Name"
+              value={form.whereAreYouFrom}
             />
 
             <FitButton
-              title="Register"
+              title="Update Bio"
               handlePress={() => Submit()}
-              containerStyles="w-full mt-[48px]"
+              containerStyles="w-full mt-[80px]"
             />
-
-            <TouchableOpacity onPress={() => router.push("/sign-in")}>
-              <Text className="pt-[130px] font-pRegular text-[16px] text-darkGray">
-                Already have an account?
-              </Text>
-            </TouchableOpacity>
           </View>
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>
   );
-};
+}
 const styles = StyleSheet.create({
   headerWrapper: {
     marginVertical: 0,
-    alignItems: "center",
+    alignItems: "flex-start",
     paddingVertical: 0,
     paddingHorizontal: 10,
   },
 });
-
-export default SignUp;
