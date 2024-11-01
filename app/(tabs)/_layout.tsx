@@ -9,22 +9,15 @@ interface TabIconProps {
   focused: boolean;
 }
 
-const TabIcon: React.FC<TabIconProps> = ({ icon, color, name, focused }) => {
+const TabIcon: React.FC<TabIconProps> = ({ icon, color}) => {
   return (
-    <View className="items-center justify-center gap-2">
+    <View className="pt-2 items-center justify-center">
       <Image
         source={icon}
         resizeMode="contain"
         tintColor={color}
-        className="w-6 h-6"
+        className="pt-3 px-4 w-5 h-6"
       />
-
-      <Text
-        className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
-        style={{ color: color }}
-      >
-        {name}
-      </Text>
     </View>
   );
 };
@@ -34,13 +27,16 @@ const TabsLayout = () => {
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,
-          tabBarActiveTintColor: "#FFA001",
-          tabBarInactiveTintColor: "#CDCDE0",
+          tabBarActiveTintColor: "#006F52",
+          tabBarInactiveTintColor: "#C4C4C4",
           tabBarStyle: {
-            backgroundColor: "#161622",
-            borderTopWidth: 1,
-            borderTopColor: "#232533",
-            height: 84,
+            position: "absolute", // Make it overlay on top of the page background
+            backgroundColor: "#293240", // Ensures transparency
+            borderTopColor: "transparent", // Removes border color at the top
+            elevation: 0, // Removes shadow on Android
+            shadowOpacity: 0, // Removes shadow on iOS
+            marginBottom: 10,
+            borderRadius: 40,
           },
         }}
       >

@@ -27,3 +27,11 @@ export interface Exercise {
     trainedAtYear: number;
     exercisesPerMuscleGroup: Record<string, ExerciseGroupDto[]>;
   }
+
+  export interface MuscleGroup {
+    id: number;
+    name: string;
+    imageUrl: string;
+    type:string;
+    exercises: Exercise[];
+  }

@@ -43,6 +43,10 @@ const RootLayout = () => {
         <Stack.Screen name="(calendar)" options={{ headerShown: false }} />
         <Stack.Screen name="onBoardingPage" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+            name="exercisePage/[id]"
+            options={{ headerShown: false }}
+          />
       </Stack>
     </GestureHandlerRootView>
   );
