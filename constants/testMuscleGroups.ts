@@ -4,7 +4,7 @@ const allMuscleGroups: MuscleGroup[] = [
   {
     id: 1,
     name: "Chest",
-    imageUrl: "img/chest/Chest.jpg",
+    imageUrl: "assets/images/chest/Chest.png",
     type:"Upper",
     exercises: [
       {
@@ -54,7 +54,7 @@ const allMuscleGroups: MuscleGroup[] = [
   {
     id: 4,
     name: "Shoulders",
-    imageUrl: "img/delts/Delts.jpg",
+    imageUrl: "images/chest/Chest.png",
     type:"Upper",
     exercises: [
       {
@@ -92,7 +92,7 @@ const allMuscleGroups: MuscleGroup[] = [
   {
     id: 8,
     name: "Abs",
-    imageUrl: "img/abs/Abs.jpg",
+    imageUrl: "images/chest/Chest.png",
     type:"Cardio",
     exercises: [
       {
@@ -118,7 +118,7 @@ const allMuscleGroups: MuscleGroup[] = [
   {
     id: 3,
     name: "Legs",
-    imageUrl: "img/legs/Legs.jpg",
+    imageUrl: "images/legs/Glutes.png",
     type:"Lower",
     exercises: [
       {
@@ -150,7 +150,7 @@ const allMuscleGroups: MuscleGroup[] = [
   {
     id: 5,
     name: "Biceps",
-    imageUrl: "img/biceps/Biceps.jpg",
+    imageUrl: "images/chest/Chest.png",
     type:"Upper",
     exercises: [
       {
@@ -182,7 +182,7 @@ const allMuscleGroups: MuscleGroup[] = [
   {
     id: 6,
     name: "Triceps",
-    imageUrl: "img/triceps/Triceps.jpg",
+    imageUrl: "images/chest/Chest.png",
     type:"Upper",
     exercises: [
       {
@@ -220,7 +220,7 @@ const allMuscleGroups: MuscleGroup[] = [
   {
     id: 7,
     name: "Calves",
-    imageUrl: "img/calves/Calves.jpg",
+    imageUrl: "images/legs/Glutes.png",
     type:"Lower",
     exercises: [
       {
@@ -240,7 +240,7 @@ const allMuscleGroups: MuscleGroup[] = [
   {
     id: 2,
     name: "Back",
-    imageUrl: "img/back/Back.jpg",
+    imageUrl: "images/chest/Chest.png",
     type:"Upper",
     exercises: [
       {

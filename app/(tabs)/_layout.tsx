@@ -16,7 +16,7 @@ const TabIcon: React.FC<TabIconProps> = ({ icon, color}) => {
         source={icon}
         resizeMode="contain"
         tintColor={color}
-        className="pt-3 px-4 w-5 h-6"
+        className="pt-1 px-2 w-5 h-6"
       />
     </View>
   );
@@ -35,7 +35,6 @@ const TabsLayout = () => {
             borderTopColor: "transparent", // Removes border color at the top
             elevation: 0, // Removes shadow on Android
             shadowOpacity: 0, // Removes shadow on iOS
-            marginBottom: 10,
             borderRadius: 40,
           },
         }}
@@ -62,7 +61,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.profile}
+                icon={icons.stats}
                 color={color}
                 focused={focused}
                 name="Profile"
@@ -77,7 +76,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={icons.plus}
+                icon={icons.meal}
                 color={color}
                 focused={focused}
                 name="Diet"

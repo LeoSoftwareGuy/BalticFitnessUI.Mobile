@@ -5,7 +5,7 @@ import BottomSheet, {
   BottomSheetFlatList,
   BottomSheetView
 } from "@gorhom/bottom-sheet";
-import BottomSheetUniqueExercise from "./ForCalendar/BottomSheetUniqueExercise";
+import BottomSheetUniqueExercise from "./CalendarComponents/BottomSheetUniqueExercise";
 import { LinearGradient } from "expo-linear-gradient";
 import { Training } from "@/constants/types";
 

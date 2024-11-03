@@ -3,20 +3,32 @@ import {
   Image,
   TouchableOpacity,
   View,
+  Text,
   ImageBackground,
 } from "react-native";
-import React from "react";
-import { Redirect, router } from "expo-router";
+import React, { useCallback, useMemo } from "react";
+import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons, images } from "@/constants";
 import MusclesListComponent from "@/components/MuscleGroups/MusclesListComponent";
+import { DateSlider } from "@/components/DateSlider";
+import { format } from "date-fns";
+import { ScrollView } from "react-native-gesture-handler";
 
 const home = () => {
+  const today = new Date();
+
+  const getDaySuffix = useCallback((day: number) => {
+    if (day === 1 || day === 21 || day === 31) return "st";
+    if (day === 2 || day === 22) return "nd";
+    if (day === 3 || day === 23) return "rd";
+    return "th";
+  }, []);
   return (
     <ImageBackground source={images.logo} style={styles.background}>
-      <SafeAreaView style={styles.container}>
-        <View className="my-0 py-0 px -10 w-full">
-          <View className="w-full flex-row justify-between align-middle">
+      <SafeAreaView style={styles.container} edges={["left", "right"]}>
+        <ScrollView className="my-0  w-full">
+          <View className="px-[7px] w-full flex-row justify-between align-middle">
             <TouchableOpacity onPress={() => router.push("/calendar")}>
               <Image
                 source={icons.calendar}
@@ -32,11 +44,15 @@ const home = () => {
               />
             </TouchableOpacity>
           </View>
-     
+
+          <Text className="text-center font-pText text-xl text-white">
+            {format(today, `d'${getDaySuffix(today.getDate())}' 'of' MMMM`)}
+          </Text>
+          <DateSlider />
           <MusclesListComponent type="Upper" />
           <MusclesListComponent type="Lower" />
           <MusclesListComponent type="Cardio" />
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </ImageBackground>
   );
@@ -48,10 +64,9 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
     resizeMode: "cover",
-  },
-  container: {
     marginVertical: 0,
     paddingVertical: 0,
     paddingHorizontal: 10,
   },
+  container: {},
 });

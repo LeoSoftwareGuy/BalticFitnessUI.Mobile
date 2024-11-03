@@ -16,7 +16,7 @@ const MusclesListComponent: React.FC<MusclesListComponentProps> = ({
   const muscleGroupsFiltered = allMuscleGroups.filter((g) => g.type === type);
 
   return (
-    <View className="my-2 min-h-[160px]">
+    <View className="my-1 min-h-[160px]">
       <Text className="mb-1 font-pText text-[16px] text-white">
         {type} body
       </Text>
@@ -39,6 +39,6 @@ export default MusclesListComponent;
 
 const styles = StyleSheet.create({
   contentContainer: {
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
 });

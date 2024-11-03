@@ -13,6 +13,8 @@ import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
 import calendar from "../assets/icons/calendar.png";
 import bio from "../assets/icons/bio.png";
+import stats from "../assets/icons/StatsIcon.png";
+import meal from "../assets/icons/MealIcon.png";
 
 export default {
   play,
@@ -29,5 +31,7 @@ export default {
   eyeHide,
   eye,
   calendar,
-  bio
+  bio,
+  stats,
+  meal
 };
