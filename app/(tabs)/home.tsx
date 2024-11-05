@@ -28,7 +28,7 @@ const home = () => {
     <ImageBackground source={images.logo} style={styles.background}>
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
         <ScrollView className="my-0  w-full">
-          <View className="px-[7px] w-full flex-row justify-between align-middle">
+          <View className="px-[7px] w-full flex-row justify-between items-center">
             <TouchableOpacity onPress={() => router.push("/calendar")}>
               <Image
                 source={icons.calendar}
@@ -36,23 +36,24 @@ const home = () => {
                 className="mt-5 mx-auto"
               />
             </TouchableOpacity>
-            <View className="w-full flex-row align-middle">
-            <TouchableOpacity onPress={() => router.push("/calendar")}>
-              <Image
-                source={icons.dumbel}
-                resizeMode="contain"
-                className="mt-5 mx-auto"
-              />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push("/calendar")}>
-              <Image
-                source={icons.bio}
-                resizeMode="contain"
-                className="mt-5 mx-auto"
-              />
-            </TouchableOpacity>
+
+            <View className="flex-row items-center space-x-1">
+              <TouchableOpacity onPress={() => router.push("/calendar")}>
+                <Image
+                  source={icons.dumbel}
+                  resizeMode="contain"
+                  className="mt-5 mx-auto" // Spacing between dumbbell and bio
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => router.push("/calendar")}>
+                <Image
+                  source={icons.bio}
+                  resizeMode="contain"
+                  className="mt-5 mx-auto"
+                />
+              </TouchableOpacity>
             </View>
-            
           </View>
 
           <Text className="text-center font-pText text-xl text-white">

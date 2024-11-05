@@ -16,7 +16,7 @@ const TabIcon: React.FC<TabIconProps> = ({ icon, color}) => {
         source={icon}
         resizeMode="contain"
         tintColor={color}
-        className="pt-1 px-2 w-5 h-6"
+        className="w-[50px] h-[50px]"
       />
     </View>
   );
