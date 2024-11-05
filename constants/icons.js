@@ -15,6 +15,8 @@ import calendar from "../assets/icons/calendar.png";
 import bio from "../assets/icons/bio.png";
 import stats from "../assets/icons/StatsIcon.png";
 import meal from "../assets/icons/MealIcon.png";
+import dumbel from "../assets/icons/dumbel.png"
+import cross from "../assets/icons/cross.png";
 
 export default {
   play,
@@ -33,5 +35,7 @@ export default {
   calendar,
   bio,
   stats,
-  meal
+  meal,
+  dumbel,
+  cross
 };

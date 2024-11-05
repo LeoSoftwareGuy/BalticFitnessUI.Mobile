@@ -4,7 +4,7 @@ import BottomSheetComponent from "@/components/BottomSheetComponent";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Calendar, DateData } from "react-native-calendars";
 import { SafeAreaView, ScrollView } from "react-native";
-import allTrainings from "@/constants/testExercises";
+import allTrainings from "@/constants/testTrainingDays";
 
 export default function CalendarPage() {
   const [currentMonth, setCurrentMonth] = useState<number>(

@@ -36,6 +36,14 @@ const home = () => {
                 className="mt-5 mx-auto"
               />
             </TouchableOpacity>
+            <View className="w-full flex-row align-middle">
+            <TouchableOpacity onPress={() => router.push("/calendar")}>
+              <Image
+                source={icons.dumbel}
+                resizeMode="contain"
+                className="mt-5 mx-auto"
+              />
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => router.push("/calendar")}>
               <Image
                 source={icons.bio}
@@ -43,6 +51,8 @@ const home = () => {
                 className="mt-5 mx-auto"
               />
             </TouchableOpacity>
+            </View>
+            
           </View>
 
           <Text className="text-center font-pText text-xl text-white">
