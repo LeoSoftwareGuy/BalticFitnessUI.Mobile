@@ -6,18 +6,26 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import allExercises from "../../constants/testExercises";
 import allMuscleGroups from "@/constants/testMuscleGroups";
-import { exerciseImages } from "../../constants/muscleGroupImages";
+
 import { ScrollView } from "react-native-gesture-handler";
 import images from "@/constants/images";
 import icons from "@/constants/icons";
+import ExerciseComponent from "@/app/exercisePage/components/ExerciseComponent";
+import { Exercise } from "@/constants/types";
+import BottomSheet from "@gorhom/bottom-sheet";
+import BottomSheetSaveExerciseComponent from "@/app/exercisePage/components/BottomSheetSaveExerciseComponent";
 
 const exercisePage = () => {
   const { id } = useLocalSearchParams();
+  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
+    null
+  );
+
   const identifier = Array.isArray(id) ? id.join(", ") : id || "";
 
   const exercisesForChosenMuscle = allExercises.filter(
@@ -28,6 +36,26 @@ const exercisePage = () => {
     (c) => c.id === exercisesForChosenMuscle[0].muscleGroupId
   )?.name;
 
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const expandBottomSheet = useCallback(() => {
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.expand();
+    }
+  }, []);
+
+  const closeBottomSheet = useCallback(() => {
+    if (bottomSheetRef.current) {
+      bottomSheetRef.current.close();
+    }
+  }, []);
+
+  const selectExercise = (exercise: Exercise) => {
+    setSelectedExercise(exercise);
+    if (bottomSheetRef.current) {
+      expandBottomSheet();
+    }
+  };
   return (
     <ImageBackground source={images.logo} style={styles.background}>
       <SafeAreaView style={{ flex: 1 }}>
@@ -37,7 +65,7 @@ const exercisePage = () => {
               <Image
                 source={icons.cross}
                 resizeMode="contain"
-                className="w-3 h-3" 
+                className="w-3 h-3"
               />
             </TouchableOpacity>
 
@@ -48,20 +76,23 @@ const exercisePage = () => {
 
           <View className="my-2 flex flex-row flex-wrap">
             {exercisesForChosenMuscle.map((exercise) => (
-              <View className="mb-4 w-3/6 h-[125px]" key={exercise.id}>
-                <Image
-                  className="w-full h-[88px]"
-                  source={exerciseImages[exercise.id]}
-                  resizeMode="contain"
-                />
-                <Text className="pl-[5px] pt-2 pb-2 font-pText text-[16px] text-white">
-                  {exercise.name}
-                </Text>
-              </View>
+              <ExerciseComponent
+                key={exercise.id}
+                exercise={exercise}
+                onClick={() => selectExercise(exercise)}
+              />
             ))}
           </View>
         </ScrollView>
       </SafeAreaView>
+
+      {selectedExercise && (
+        <BottomSheetSaveExerciseComponent
+          ref={bottomSheetRef}
+          exercise={selectedExercise}
+          onClose={closeBottomSheet}
+        />
+      )}
     </ImageBackground>
   );
 };

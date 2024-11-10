@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -6,6 +6,7 @@ interface CustomFitButtonProps {
   title: string;
   handlePress: () => void;
   containerStyles?: string;
+  buttonStyles?: ViewStyle;
   textStyles?: string;
   isLoading?: boolean;
 }
@@ -15,6 +16,7 @@ const FitButton: React.FC<CustomFitButtonProps> = ({
   containerStyles,
   handlePress,
   textStyles,
+  buttonStyles,
   isLoading = false,
 }) => {
   return (
@@ -28,7 +30,7 @@ const FitButton: React.FC<CustomFitButtonProps> = ({
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         locations={[0, 0.48, 1]}
-        style={styles.button}
+        style={[styles.button, buttonStyles]}
       >
         <Text
           className={`text-center text-white text-lg font-pBold font-medium`}

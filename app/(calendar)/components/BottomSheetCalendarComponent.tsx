@@ -5,7 +5,7 @@ import BottomSheet, {
   BottomSheetFlatList,
   BottomSheetView
 } from "@gorhom/bottom-sheet";
-import BottomSheetUniqueExercise from "./CalendarComponents/BottomSheetUniqueExercise";
+import BottomSheetUniqueExercise from "./BottomSheetUniqueExercise";
 import { LinearGradient } from "expo-linear-gradient";
 import { Training } from "@/constants/types";
 
@@ -17,7 +17,7 @@ interface Props {
 }
 type Ref = BottomSheet;
 
-const BottomSheetComponent = forwardRef<Ref, Props>((props, ref) => {
+const BottomSheetCalendarComponent = forwardRef<Ref, Props>((props, ref) => {
   const allUniqueExercises = Object.values(props.training.exercisesPerMuscleGroup).flat();
   const snapPoints = useMemo(() => ["40%", "60%", "80%"], []);
   const renderBackdrop = useCallback((props:any)=> <BottomSheetBackdrop appearsOnIndex={1} disappearsOnIndex={-1} {...props} />,[])
@@ -50,7 +50,7 @@ const BottomSheetComponent = forwardRef<Ref, Props>((props, ref) => {
   );
 });
 
-export default BottomSheetComponent;
+export default BottomSheetCalendarComponent;
 
 const styles = StyleSheet.create({
   headerWrapper: {

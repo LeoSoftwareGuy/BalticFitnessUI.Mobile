@@ -5,7 +5,7 @@ import { images } from "./../constants";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import FitButton from "@/components/FItButton";
+import FitButton from "@/components/Buttons/FItButton";
 
 export default function App() {
   return (

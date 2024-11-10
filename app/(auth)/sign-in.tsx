@@ -15,7 +15,7 @@ import { Link, Redirect, router } from "expo-router";
 import { getCurrentUser, signIn } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
 import { LinearGradient } from "expo-linear-gradient";
-import FitButton from "@/components/FItButton";
+import FitButton from "@/components/Buttons/FItButton";
 
 export default function SignIn() {
   // const {setUser, setIsLoggedIn } = useGlobalContext();

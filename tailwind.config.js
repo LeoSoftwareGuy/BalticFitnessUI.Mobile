@@ -6,8 +6,10 @@ module.exports = {
       colors: {
         primary: "#131313",
         emerald:'#006F52',
+        swamp:'#05231B',
         gray:'#767676',
         darkGray:'#9A9A9A',
+        mediumGray:"#A9A9A9",
         secondary: {
           DEFAULT: "#FF9C01",
           100: "#FF9001",
@@ -30,7 +32,7 @@ module.exports = {
       spacing: {
         '1':"10px",
         '2':'20px',
-         '3': '30px',
+        '3': '30px',
         '4': '40px', // 4 * 10px
         '5': '50px', // 5 * 10px
         '6':'60px',

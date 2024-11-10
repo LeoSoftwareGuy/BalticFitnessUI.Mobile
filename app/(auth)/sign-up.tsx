@@ -13,7 +13,7 @@ import { router } from "expo-router";
 import { createUser } from "../../lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
 import { LinearGradient } from "expo-linear-gradient";
-import FitButton from "@/components/FItButton";
+import FitButton from "@/components/Buttons/FItButton";
 import CountrySelect, {
   CountrySelectValue,
 } from "@/components/SelectComponents/CountrySelect";
