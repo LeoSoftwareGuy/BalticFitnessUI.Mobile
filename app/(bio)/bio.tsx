@@ -15,9 +15,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import FitButton from "@/components/Buttons/FItButton";
 import CountrySelect, {
   CountrySelectValue,
-} from "@/components/SelectComponents/CountrySelect";
-import AgeSelect from "@/components/SelectComponents/AgeSelect";
-import GenderSelect from "@/components/SelectComponents/GenderSelect";
+} from "@/app/(bio)/components/CountrySelect";
+import AgeSelect from "@/app/(bio)/components/AgeSelect";
+import GenderSelect from "@/app/(bio)/components/GenderSelect";
 
 interface FormState {
   whereAreYouFrom: CountrySelectValue | null;

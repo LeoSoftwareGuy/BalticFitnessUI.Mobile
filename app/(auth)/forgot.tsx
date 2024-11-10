@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import FormField from "@/components/FormField";
+
 import FitButton from "@/components/Buttons/FItButton";
 import { router } from "expo-router";
+import FormField from "@/components/Fields/FormField";
 
 const Forgot = () => {
   // const {setUser, setIsLoggedIn } = useGlobalContext();

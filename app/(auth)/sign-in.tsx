@@ -10,12 +10,12 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import FormField from "@/components/FormField";
 import { Link, Redirect, router } from "expo-router";
 import { getCurrentUser, signIn } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
 import { LinearGradient } from "expo-linear-gradient";
 import FitButton from "@/components/Buttons/FItButton";
+import FormField from "@/components/Fields/FormField";
 
 export default function SignIn() {
   // const {setUser, setIsLoggedIn } = useGlobalContext();

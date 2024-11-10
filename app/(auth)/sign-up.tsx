@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FormField from "@/components/FormField";
+
 import { router } from "expo-router";
 import { createUser } from "../../lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
@@ -16,9 +16,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import FitButton from "@/components/Buttons/FItButton";
 import CountrySelect, {
   CountrySelectValue,
-} from "@/components/SelectComponents/CountrySelect";
-import AgeSelect from "@/components/SelectComponents/AgeSelect";
-import GenderSelect from "@/components/SelectComponents/GenderSelect";
+} from "@/app/(bio)/components/CountrySelect";
+import AgeSelect from "@/app/(bio)/components/AgeSelect";
+import GenderSelect from "@/app/(bio)/components/GenderSelect";
+import FormField from "@/components/Fields/FormField";
 
 interface FormState {
   email: string;
