@@ -38,7 +38,7 @@ const home = () => {
             </TouchableOpacity>
 
             <View className="flex-row items-center space-x-1">
-              <TouchableOpacity onPress={() => router.push("/calendar")}>
+              <TouchableOpacity onPress={() => router.push("/todaysWorkout")}>
                 <Image
                   source={icons.dumbel}
                   resizeMode="contain"
