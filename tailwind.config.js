@@ -6,10 +6,12 @@ module.exports = {
       colors: {
         primary: "#131313",
         emerald:'#006F52',
+        lightEmerald:'2AB38E',
         swamp:'#05231B',
         gray:'#767676',
         darkGray:'#9A9A9A',
         mediumGray:"#A9A9A9",
+        grayForStats:"#696F6D",
         secondary: {
           DEFAULT: "#FF9C01",
           100: "#FF9001",

@@ -48,6 +48,10 @@ const RootLayout = () => {
           options={{ headerShown: false }}
         />
          <Stack.Screen name="(todaysWorkout)" options={{ headerShown: false }} />
+         <Stack.Screen
+          name="exerciseStatsPage/[id]"
+          options={{ headerShown: false }}
+        />
       </Stack>
      
     </GestureHandlerRootView>

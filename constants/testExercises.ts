@@ -4,61 +4,61 @@ const allExercises: Exercise[] = [
     {
         id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
         muscleGroupId: 4,
-        name: "ArnoldPress",
+        name: "Arnold Press",
         imageUrl: "img/delts/ArnoldPress.jpg"
       },
       {
         id: "65c5fa62-f772-4cbb-8391-4ff92e46e1f3",
         muscleGroupId: 4,
-        name: "FrontDeltRaises",
+        name: "Front Delt Raises",
         imageUrl: "img/delts/FrontDeltRaises.jpg"
       },
       {
         id: "52c5f2bc-17c3-46a5-ae58-7b211350b3cd",
         muscleGroupId: 4,
-        name: "RearDeltsRaises",
+        name: "Rear Delts Raises",
         imageUrl: "img/delts/RearDeltsRaises.jpg"
       },
       {
         id: "cda4dd94-dc9c-43c4-98ee-66ea884f8cc0",
         muscleGroupId: 4,
-        name: "ShouldBarbelSmithPress",
+        name: "Should Barbel Smith Press",
         imageUrl: "img/delts/ShouldBarbelSmithPress.jpg"
       },
       {
         id: "3a8ddb87-5c38-409f-923c-dfc0a9dd53ef",
         muscleGroupId: 4,
-        name: "ShouldDumbellPress",
+        name: "Should Dumbell Press",
         imageUrl: "img/delts/ShouldDumbellPress.jpg"
       },
       {
         id: "606e00eb-04fc-4da3-9941-d3a3febd74d5",
         muscleGroupId: 4,
-        name: "ShoulderHammerPress",
+        name: "Shoulder Hammer Press",
         imageUrl: "img/delts/ShoulderHammerPress.jpg"
       },
       {
         id: "3fe98bff-5456-4cc2-bce5-3ec3a50bacb2",
         muscleGroupId: 4,
-        name: "StandingLateralRaises",
+        name: "Standing Lateral Raises",
         imageUrl: "img/delts/StandingLateralRaises.jpg"
       },
       {
         id: "d27baf0f-b501-40c5-b6a8-263802bb9261",
         muscleGroupId: 1,
-        name: "BenchPress",
+        name: "Bench Press",
         imageUrl: "img/chest/BenchPress.jpg"
       },
       {
         id: "7f69b511-3dec-4783-9e86-9347a747cc41",
         muscleGroupId: 1,
-        name: "BenchPressOneHand",
+        name: "Bench Press One Hand",
         imageUrl: "img/chest/BenchPressOneHand.jpg"
       },
       {
         id: "68e6b99d-a114-40d4-80c6-4452a814cfa7",
         muscleGroupId: 1,
-        name: "CableCrossOver",
+        name: "Cable Cross Over",
         imageUrl: "img/chest/CableCrossOver.jpg"
       },
       {

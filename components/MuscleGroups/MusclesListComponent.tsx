@@ -21,7 +21,6 @@ const MusclesListComponent: React.FC<MusclesListComponentProps> = ({
         {type} body
       </Text>
       <FlatList
-        className=""
         data={muscleGroupsFiltered}
         renderItem={({ item }) => (
           <MuscleGroupComponent muscleGroup={item} />

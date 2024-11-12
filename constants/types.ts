@@ -35,3 +35,9 @@ export interface Exercise {
     type:string;
     exercises: Exercise[];
   }
+
+  export interface StatsSummaryBasedOnFilter{
+    sessionsDone:number;
+    exercisesDone:number;
+    muscleGroups:number
+  }
