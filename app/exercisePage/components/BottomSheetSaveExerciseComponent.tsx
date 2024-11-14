@@ -6,7 +6,7 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 import { Exercise } from "@/constants/types";
 import ExerciseResult from "@/app/exercisePage/components/ExerciseResult";
-import { exerciseImages } from "../../../constants/muscleGroupImages";
+import { largeExerciseImages } from "../../../constants/muscleGroupImages";
 import ExerciseParametersPicker from "./ExerciseParametersPicker";
 import FitButton from "@/components/Buttons/FItButton";
 
@@ -73,7 +73,7 @@ const BottomSheetSaveExerciseComponent = forwardRef<Ref, Props>(
           <BottomSheetView style={styles.container}>
             <Image
               className="w-full h-[180px]"
-              source={exerciseImages[props.exercise.id]}
+              source={largeExerciseImages[props.exercise.id]}
               resizeMode="contain"
             />
             <Text className="mt-[15px] mb-[8px] font-pText text-white text-[24px]">

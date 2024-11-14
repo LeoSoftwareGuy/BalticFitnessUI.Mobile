@@ -6,10 +6,12 @@ import StoreExerciseSetInfo from "./StoreExerciseSetInfo";
 
 interface StoredExerciseInfoProps {
   uniqueExercise: ExerciseGroupDto;
+  exerciseInfo: string;
 }
 
 const StoredExerciseInfo: React.FC<StoredExerciseInfoProps> = ({
   uniqueExercise,
+  exerciseInfo
 }) => {
   return (
     <View style={styles.exerciseContainer}>
@@ -21,7 +23,7 @@ const StoredExerciseInfo: React.FC<StoredExerciseInfoProps> = ({
         className="rounded-xl"
       >
         <Text className="pl-[8px] pt-[8px] pb-[8px] font-pText text-[12px] leading-[22px] font-normal text-white">
-          {uniqueExercise.name}
+          {exerciseInfo}
         </Text>
         <FlatList
           data={uniqueExercise.exerciseSets}
@@ -43,11 +45,11 @@ export default StoredExerciseInfo;
 const styles = StyleSheet.create({
   exerciseContainer: {
     marginBottom: 16,
-    marginLeft: 15,
+
     height: 80,
     backgroundColor: "transparent",
     borderRadius: 15,
-    width:"100%",
+    width: "100%",
     alignSelf: "flex-start",
   },
   setsContainer: {

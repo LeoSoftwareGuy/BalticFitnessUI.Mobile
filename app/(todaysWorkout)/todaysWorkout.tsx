@@ -55,7 +55,10 @@ const todaysWorkout = () => {
           <FlatList
             data={todaysWorkoutFromLocalStorage}
             renderItem={({ item }) => (
-              <StoredExerciseInfo uniqueExercise={item} />
+              <StoredExerciseInfo
+                uniqueExercise={item}
+                exerciseInfo={item.name}
+              />
             )}
             keyExtractor={(item, index) => index.toString()}
             contentContainerStyle={styles.contentContainer}
