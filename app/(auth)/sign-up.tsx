@@ -10,66 +10,61 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { router } from "expo-router";
-import { createUser } from "../../lib/appwrite";
-import { useGlobalContext } from "@/context/GlobalProvider";
 import { LinearGradient } from "expo-linear-gradient";
 import FitButton from "@/components/Buttons/FItButton";
-import CountrySelect, {
-  CountrySelectValue,
-} from "@/app/(bio)/components/CountrySelect";
-import AgeSelect from "@/app/(bio)/components/AgeSelect";
-import GenderSelect from "@/app/(bio)/components/GenderSelect";
 import FormField from "@/components/Fields/FormField";
+import APIClient from "@/api/api-client";
+import useAuthStore from "@/hooks/useAuthStore";
 
 interface FormState {
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
-  name: string;
-  whereAreYouFrom: CountrySelectValue | null;
-  age: string;
-  gender: string;
 }
 
 const SignUp = () => {
-  // const { setUser, setIsLoggedIn } = useGlobalContext();
+  const authStore = useAuthStore((s) => s.setAccessToken);
   const [form, setForm] = useState<FormState>({
     email: "",
     password: "",
     confirmPassword: "",
     name: "",
-    whereAreYouFrom: null,
-    age: "", // convert to int upon sending
-    gender: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const Submit = async () => {
-    // Ensure all fields are filled
-    // if (!form.name || !form.email || !form.password) {
-    //   Alert.alert("Error", "Please fill in all fields");
-    //   return;
-    // }
+    if (!form.name || !form.email || !form.password || !form.confirmPassword) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
+
+    if (form.password !== form.confirmPassword) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
 
     setIsSubmitting(true);
     try {
-      // const result = await createUser({
-      //   email: form.email,
-      //   password: form.password,
-      //   username: form.name,
-      // });
+      const apiClient = new APIClient<FormState>("/Auth/register");
+      const accessToken = await apiClient.register({
+        ...form,
+      });
 
-      // Redirect to home page upon successful sign-up
-      // setUser(result);
-      // setIsLoggedIn(true);
+      authStore(accessToken);
       router.push("/bio");
     } catch (error: any) {
       Alert.alert("Error", error.message || "Account creation failed");
     } finally {
       setIsSubmitting(false);
+      setForm({
+        email: "",
+        password: "",
+        confirmPassword: "",
+        name: "",
+      });
     }
   };
-
   return (
     <LinearGradient
       colors={["#3F3F3F", "#151515"]}
@@ -129,6 +124,7 @@ const SignUp = () => {
               title="Register"
               handlePress={() => Submit()}
               containerStyles="w-full mt-[48px]"
+              isLoading={isSubmitting}
             />
 
             <TouchableOpacity onPress={() => router.push("/sign-in")}>

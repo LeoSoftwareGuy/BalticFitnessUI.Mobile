@@ -7,26 +7,37 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Link, Redirect, router } from "expo-router";
-import { getCurrentUser, signIn } from "@/lib/appwrite";
-import { useGlobalContext } from "@/context/GlobalProvider";
+import { router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import FitButton from "@/components/Buttons/FItButton";
 import FormField from "@/components/Fields/FormField";
+import APIClient from "@/api/api-client";
+import useAuthStore from "@/hooks/useAuthStore";
+
+interface FormState {
+  email: string;
+  password: string;
+}
 
 export default function SignIn() {
-  // const {setUser, setIsLoggedIn } = useGlobalContext();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormState>({
     email: "",
     password: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const authStore = useAuthStore((s) => s.setAccessToken);
+  const accessToken = useAuthStore((s) => s.accessToken);
+
+  useEffect(() => {
+    if (accessToken) {
+      router.replace("/home");
+    }
+  }, [accessToken]);
 
   const Submit = async () => {
-    // Ensure all fields are filled
     if (!form.email || !form.password) {
       Alert.alert("Error", "Please fill in all fields");
       return;
@@ -34,18 +45,21 @@ export default function SignIn() {
 
     setIsSubmitting(true);
     try {
-      await signIn(form.email, form.password);
+      const apiClient = new APIClient<FormState>("/Auth/login");
+      const accessToken = await apiClient.register({
+        ...form,
+      });
 
-      //Important for global state.
-      const result = await getCurrentUser();
-      // setUser(result);
-      // setIsLoggedIn(true);
-
-      // router.replace("/home");
+      authStore(accessToken);
+      router.replace("/home");
     } catch (error: any) {
       Alert.alert("Error", error.message || "Account creation failed");
     } finally {
       setIsSubmitting(false);
+      setForm({
+        email: "",
+        password: "",
+      });
     }
   };
 
@@ -94,9 +108,8 @@ export default function SignIn() {
 
             <FitButton
               title="Sign in"
-              handlePress={() => {
-                router.push("/sign-in");
-              }}
+              handlePress={Submit}
+              isLoading={isSubmitting}
               containerStyles="w-full mt-[80px]"
             />
 

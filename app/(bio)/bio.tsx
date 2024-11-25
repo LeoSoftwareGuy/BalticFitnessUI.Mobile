@@ -1,16 +1,7 @@
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Alert,
-  TouchableOpacity,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View, Alert } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { createUser } from "../../lib/appwrite";
-import { useGlobalContext } from "@/context/GlobalProvider";
 import { LinearGradient } from "expo-linear-gradient";
 import FitButton from "@/components/Buttons/FItButton";
 import CountrySelect, {
@@ -18,40 +9,36 @@ import CountrySelect, {
 } from "@/app/(bio)/components/CountrySelect";
 import AgeSelect from "@/app/(bio)/components/AgeSelect";
 import GenderSelect from "@/app/(bio)/components/GenderSelect";
+import APIClient from "@/api/api-client";
+
 
 interface FormState {
   whereAreYouFrom: CountrySelectValue | null;
-  age: string;
+  age: number;
   gender: string;
 }
 
 export default function Bio() {
-  // const { setUser, setIsLoggedIn } = useGlobalContext();
   const [form, setForm] = useState<FormState>({
     whereAreYouFrom: null,
-    age: "", // convert to int upon sending
+    age: 1,
     gender: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const Submit = async () => {
-    // Ensure all fields are filled
-    // if (!form.whereAreYouFrom || !form.age || !form.gender) {
-    //   Alert.alert("Error", "Please fill in all fields");
-    //   return;
-    // }
+    if (!form.whereAreYouFrom || !form.age || !form.gender) {
+      Alert.alert("Error", "Please fill in all fields");
+      return;
+    }
 
     setIsSubmitting(true);
     try {
-      // const result = await createUser({
-      //   email: form.email,
-      //   password: form.password,
-      //   username: form.name,
-      // });
+      const apiClient = new APIClient<FormState>("/Auth/bio");
 
-      // Redirect to home page upon successful sign-up
-      // setUser(result);
-      // setIsLoggedIn(true);
+      await apiClient.register({
+        ...form,
+      });
       router.push("/onBoardingPage");
     } catch (error: any) {
       Alert.alert("Error", error.message || "Account creation failed");
@@ -78,8 +65,10 @@ export default function Bio() {
             </View>
 
             <AgeSelect
-              age={form.age}
-              onAgeChange={(e: string) => setForm({ ...form, age: e })}
+              age={form.age.toString()}
+              onAgeChange={(e: string) =>
+                setForm({ ...form, age: parseInt(e) })
+              }
             />
 
             <GenderSelect
@@ -97,6 +86,7 @@ export default function Bio() {
             <FitButton
               title="Update Bio"
               handlePress={() => Submit()}
+              isLoading={isSubmitting}
               containerStyles="w-full mt-[80px]"
             />
           </View>
