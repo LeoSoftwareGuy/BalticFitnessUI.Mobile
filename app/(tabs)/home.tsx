@@ -6,7 +6,7 @@ import {
   Text,
   ImageBackground,
 } from "react-native";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback  } from "react";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons, images } from "@/constants";
@@ -14,6 +14,7 @@ import MusclesListComponent from "@/components/MuscleGroups/MusclesListComponent
 import { DateSlider } from "@/components/DateSlider";
 import { format } from "date-fns";
 import { ScrollView } from "react-native-gesture-handler";
+import useMuscleGroups from "@/hooks/useMuscleGroups";
 
 const home = () => {
   const today = new Date();
@@ -24,6 +25,9 @@ const home = () => {
     if (day === 3 || day === 23) return "rd";
     return "th";
   }, []);
+
+  const { data: muscleGroups = [], error } = useMuscleGroups();
+
   return (
     <ImageBackground source={images.logo} style={styles.background}>
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
@@ -42,7 +46,7 @@ const home = () => {
                 <Image
                   source={icons.dumbel}
                   resizeMode="contain"
-                  className="mt-5 mx-auto" // Spacing between dumbbell and bio
+                  className="mt-5 mx-auto" 
                 />
               </TouchableOpacity>
 
@@ -60,9 +64,18 @@ const home = () => {
             {format(today, `d'${getDaySuffix(today.getDate())}' 'of' MMMM`)}
           </Text>
           <DateSlider />
-          <MusclesListComponent type="Upper" />
-          <MusclesListComponent type="Lower" />
-          <MusclesListComponent type="Cardio" />
+
+          {error ? (
+            <View>
+              <Text>Something happened! Please refresh the page</Text>
+            </View>
+          ) : (
+            <>
+              <MusclesListComponent muscleGroups={muscleGroups} type="Upper" />
+              <MusclesListComponent muscleGroups={muscleGroups} type="Lower" />
+              <MusclesListComponent muscleGroups={muscleGroups} type="Cardio" />
+            </>
+          )}
         </ScrollView>
       </SafeAreaView>
     </ImageBackground>

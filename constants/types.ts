@@ -48,3 +48,10 @@ export interface User {
   email: string;
   name: string;
 }
+
+export interface ExerciseStats {
+  exerciseName: string;
+  reps: number;
+  sets: number;
+  weight: string;
+}

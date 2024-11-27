@@ -79,8 +79,10 @@ const BottomSheetSaveExerciseComponent = forwardRef<Ref, Props>(
             <Text className="mt-[15px] mb-[8px] font-pText text-white text-[24px]">
               {props.exercise.name}
             </Text>
-            <ExerciseResult />
-            <ExerciseResult />
+
+            <ExerciseResult resultType="Best" exerciseId={props.exercise.id} />
+            <ExerciseResult resultType="Last" exerciseId={props.exercise.id} />
+            
             <ExerciseParametersPicker
                parameters={repsSetsWeight}
                onChange={handleParametersChange}

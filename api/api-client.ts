@@ -58,13 +58,38 @@ class APIClient<T> {
   }
 
   getSingle = async (id: string | number): Promise<T> => {
-    return await axiosInstance
-      .get<T>(`${this.endpoint}/${id}`)
-      .then((res) => res.data);
+    try {
+      const response = await axiosInstance.get<T>(`${this.endpoint}/${id}`);
+      return response.data;
+    } catch (error: any) {
+      console.error("API Request failed:", error);
+      Alert.alert("Error", error.message || "Request failed");
+      return Promise.reject(error);
+    }
+  };
+
+  getExerciseStats = async (id: string | number, type: string): Promise<T> => {
+    try {
+      const response = await axiosInstance.get<T>(
+        `${this.endpoint}/${id}/${type}`
+      );
+      return response.data;
+    } catch (error: any) {
+      console.error("API Request failed:", error);
+      Alert.alert("Error", error.message || "Request failed");
+      return Promise.reject(error);
+    }
   };
 
   getAll = async (): Promise<T[]> => {
-    return await axiosInstance.get<T[]>(this.endpoint).then((res) => res.data);
+    try {
+      const response = await axiosInstance.get<T[]>(this.endpoint);
+      return response.data;
+    } catch (error: any) {
+      console.error("API Request failed:", error);
+      Alert.alert("Error", error.message || "Request failed");
+      return Promise.reject(error);
+    }
   };
 
   register = async (data: T): Promise<string> => {

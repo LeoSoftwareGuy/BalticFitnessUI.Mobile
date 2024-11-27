@@ -9,8 +9,6 @@ import {
 import React, { useCallback, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
-import allExercises from "../../constants/testExercises";
-import allMuscleGroups from "@/constants/testMuscleGroups";
 
 import { ScrollView } from "react-native-gesture-handler";
 import images from "@/constants/images";
@@ -19,22 +17,20 @@ import ExerciseComponent from "@/app/exercisePage/components/ExerciseComponent";
 import { Exercise } from "@/constants/types";
 import BottomSheet from "@gorhom/bottom-sheet";
 import BottomSheetSaveExerciseComponent from "@/app/exercisePage/components/BottomSheetSaveExerciseComponent";
+import useMuscleGroup from "@/hooks/useMuscleGroup";
 
 const exercisePage = () => {
   const { id } = useLocalSearchParams();
+  const identifier = Array.isArray(id) ? id.join(", ") : id || "";
+  const {
+    data: muscleGroup,
+    isLoading,
+    error,
+  } = useMuscleGroup(identifier);
+
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
     null
   );
-
-  const identifier = Array.isArray(id) ? id.join(", ") : id || "";
-
-  const exercisesForChosenMuscle = allExercises.filter(
-    (g) => g.muscleGroupId.toString() === identifier
-  );
-
-  const muscleGroup = allMuscleGroups.find(
-    (c) => c.id === exercisesForChosenMuscle[0].muscleGroupId
-  )?.name;
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -70,12 +66,12 @@ const exercisePage = () => {
             </TouchableOpacity>
 
             <Text className="flex-1 text-center font-pText text-xl text-white">
-              {muscleGroup}
+              {muscleGroup?.name}
             </Text>
           </View>
 
           <View className="my-2 flex flex-row flex-wrap">
-            {exercisesForChosenMuscle.map((exercise) => (
+            {muscleGroup?.exercises.map((exercise) => (
               <ExerciseComponent
                 key={exercise.id}
                 exercise={exercise}

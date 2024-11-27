@@ -11,7 +11,6 @@ import AgeSelect from "@/app/(bio)/components/AgeSelect";
 import GenderSelect from "@/app/(bio)/components/GenderSelect";
 import APIClient from "@/api/api-client";
 
-
 interface FormState {
   whereAreYouFrom: CountrySelectValue | null;
   age: number;
@@ -44,6 +43,7 @@ export default function Bio() {
       Alert.alert("Error", error.message || "Account creation failed");
     } finally {
       setIsSubmitting(false);
+      setForm({ whereAreYouFrom: null, age: 1, gender: "" });
     }
   };
 
