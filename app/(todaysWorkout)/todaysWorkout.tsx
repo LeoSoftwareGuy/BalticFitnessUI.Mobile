@@ -2,33 +2,50 @@ import {
   ImageBackground,
   SafeAreaView,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   FlatList,
+  Alert,
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import { icons, images } from "@/constants";
 import { router } from "expo-router";
-import allTrainings from "@/constants/testTrainingDays";
 import StoredExerciseInfo from "./components/StoredExerciseInfo";
 import FitButton from "@/components/Buttons/FItButton";
-import { ExerciseGroupDto } from "@/constants/types";
+import { ExerciseGroupDto, ExerciseSet } from "@/constants/types";
+import useWorkoutsStore from "@/hooks/stores/useWorkoutsStore";
+import APIClient from "@/api/api-client";
 
 const todaysWorkout = () => {
-  // There should be 1 training in localStorage for todays date.
-  const todaysWorkoutFromLocalStorage: ExerciseGroupDto[] = [];
-  // const todaysWorkoutFromLocalStorage = Object.values(
-  //   allTrainings[0].exercisesPerMuscleGroup
-  // ).flat();
+  const todaysWorkoutFromLocalStorage: ExerciseGroupDto[] = useWorkoutsStore(
+    (c) => c.exercisesAndTheirSets
+  );
+  const clearExercisesFromLocalStorage = useWorkoutsStore(
+    (c) => c.clearExercises
+  );
   const [isLoading, setIsLoading] = useState(false);
-  const onSubmit = useCallback(() => {
+
+  const onSubmit = useCallback(async () => {
     setIsLoading(true);
-    console.log("Submitted");
-    setIsLoading(false);
-  }, []);
+
+    try {
+      const apiClient = new APIClient<ExerciseSet[]>("/Fitness/SaveTraining");
+      const exerciseSetDtos = todaysWorkoutFromLocalStorage.flatMap(
+        (exerciseGroup) => exerciseGroup.exerciseSets
+      );
+
+      await apiClient.saveTraining(exerciseSetDtos);
+
+      Alert.alert("Success", "Workout saved successfully!");
+      clearExercisesFromLocalStorage();
+    } catch (error) {
+      Alert.alert("Error", "Failed to save workout");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [todaysWorkoutFromLocalStorage, clearExercisesFromLocalStorage]);
 
   return (
     <ImageBackground source={images.logo} style={styles.background}>

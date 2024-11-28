@@ -2,7 +2,7 @@ import { eachMonthOfInterval } from "date-fns";
 
 // Type for Exercise
 export interface Exercise {
-  id: string;
+  id: number;
   muscleGroupId: number;
   name: string;
   imageUrl: string;
@@ -10,15 +10,13 @@ export interface Exercise {
 
 // Type for ExerciseSet
 export interface ExerciseSet {
+  exerciseId: number;
   reps: number;
-  weight: number;
-  pre: number;
-  exercise: Exercise;
+  weight: string;
 }
 
 export interface ExerciseGroupDto {
   name: string;
-  id: string;
   exerciseSets: ExerciseSet[];
 }
 // Type for Training
@@ -39,9 +37,9 @@ export interface MuscleGroup {
 }
 
 export interface StatsSummaryBasedOnFilter {
-  sessionsDone: number;
-  exercisesDone: number;
-  muscleGroups: number;
+  sessionsCount: number;
+  exercisesCount: number;
+  muscleGroupsCount: number;
 }
 
 export interface User {

@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
-import useAuthStore from "@/hooks/useAuthStore";
+import useAuthStore from "@/hooks/stores/useAuthStore";
 import { Alert } from "react-native";
 
 export const axiosInstance = axios.create({
@@ -95,7 +95,6 @@ class APIClient<T> {
   register = async (data: T): Promise<string> => {
     try {
       const response = await axiosInstance.post(this.endpoint, data);
-
       return response.data;
     } catch (error: any) {
       console.error("API Request failed:", error);
@@ -103,6 +102,18 @@ class APIClient<T> {
       return Promise.reject(error);
     }
   };
+
+
+  saveTraining = async (data:T): Promise<string> => {
+    try {
+      const response = await axiosInstance.post(this.endpoint, data);
+      return response.data;
+    } catch (error: any) {
+      console.error("API Request failed:", error);
+      Alert.alert("Error", error.message || "Request failed");
+      return Promise.reject(error);
+    }
+  }
 }
 
 export default APIClient;

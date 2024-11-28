@@ -1,19 +1,27 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useMemo } from "react";
 
 interface StoreExerciseSetInfoProps {
   reps: number;
-  weight: number;
+  weight: string;
 }
 
 const StoreExerciseSetInfo: React.FC<StoreExerciseSetInfoProps> = ({
   reps,
   weight,
 }) => {
+  const info = useMemo(() => {
+    if (weight === "BodyWeight") {
+      return `${reps} x BodyWeight`;
+    } else {
+      return `${reps} x ${weight} kg`;
+    }
+  }, [reps, weight]);
+
   return (
     <View style={styles.setCircle}>
       <Text className="font-pText text-[12px] text-white leading-[22px] font-normal">
-        {reps} x {weight} kg
+        {info}
       </Text>
     </View>
   );

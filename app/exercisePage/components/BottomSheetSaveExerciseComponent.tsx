@@ -1,20 +1,22 @@
-import { StyleSheet, Text, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, Image, TouchableOpacity, Alert } from "react-native";
 import React, { forwardRef, useCallback, useMemo, useState } from "react";
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { Exercise } from "@/constants/types";
+import { Exercise, ExerciseGroupDto, ExerciseSet } from "@/constants/types";
 import ExerciseResult from "@/app/exercisePage/components/ExerciseResult";
 import { largeExerciseImages } from "../../../constants/muscleGroupImages";
 import ExerciseParametersPicker from "./ExerciseParametersPicker";
 import FitButton from "@/components/Buttons/FItButton";
+import useWorkoutsStore from "@/hooks/stores/useWorkoutsStore";
 
 interface Props {
   exercise: Exercise;
   onClose: () => void;
 }
 export interface ExerciseParameters {
+  ExerciseId: number;
   Reps: number;
   Weight: string;
   Sets: number;
@@ -24,27 +26,56 @@ type Ref = BottomSheet;
 const BottomSheetSaveExerciseComponent = forwardRef<Ref, Props>(
   (props, ref) => {
     const [repsSetsWeight, setRepsSetsWeight] = useState<ExerciseParameters>({
+      ExerciseId: props.exercise.id,
       Reps: 1,
       Sets: 1,
       Weight: "",
     });
+
+    const addExercise = useWorkoutsStore((state) => state.addExercise);
     const [isLoading, setIsLoading] = useState(false);
 
+    //Based on specified number of sets,
+    // create exerciseSet instance with weight and reps
+    // store to local storage
     const addWorkoutToLocalStorage = useCallback(() => {
-      console.log("Workout data:", repsSetsWeight);
-      if (
-        repsSetsWeight &&
-        repsSetsWeight?.Reps >= 1 &&
-        repsSetsWeight?.Sets >= 1
-      ) {
-        console.log("Workout data:", repsSetsWeight);
-        setIsLoading(true);
+      setIsLoading(true);
+
+      // Construct exercise sets
+      const exerciseSets: ExerciseSet[] = Array.from(
+        { length: repsSetsWeight.Sets },
+        () => ({
+          reps: repsSetsWeight.Reps,
+          weight: repsSetsWeight.Weight,
+          exerciseId: repsSetsWeight.ExerciseId,
+        })
+      );
+
+      const exerciseGroup: ExerciseGroupDto = {
+        name: props.exercise.name,
+        exerciseSets,
+      };
+
+      try {
+        addExercise(exerciseGroup);
+      } catch (error) {
+        Alert.alert("Failed to save exercise");
+        console.error("Failed to add exercise:", error);
+      } finally {
         setIsLoading(false);
+        setRepsSetsWeight({
+          ExerciseId: props.exercise.id,
+          Reps: 1,
+          Sets: 1,
+          Weight: "",
+        });
         props.onClose();
       }
-    }, [repsSetsWeight]);
+    }, [repsSetsWeight, props.exercise, addExercise, props.onClose]);
 
-    const handleParametersChange = (updatedParameters: Partial<ExerciseParameters>) => {
+    const handleParametersChange = (
+      updatedParameters: Partial<ExerciseParameters>
+    ) => {
       setRepsSetsWeight((prev) => ({ ...prev, ...updatedParameters }));
     };
 
@@ -82,10 +113,10 @@ const BottomSheetSaveExerciseComponent = forwardRef<Ref, Props>(
 
             <ExerciseResult resultType="Best" exerciseId={props.exercise.id} />
             <ExerciseResult resultType="Last" exerciseId={props.exercise.id} />
-            
+
             <ExerciseParametersPicker
-               parameters={repsSetsWeight}
-               onChange={handleParametersChange}
+              parameters={repsSetsWeight}
+              onChange={handleParametersChange}
             />
 
             <BottomSheetView style={styles.button__wrapper}>

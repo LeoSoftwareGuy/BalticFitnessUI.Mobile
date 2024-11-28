@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import FitButton from "@/components/Buttons/FItButton";
 import FormField from "@/components/Fields/FormField";
 import APIClient from "@/api/api-client";
-import useAuthStore from "@/hooks/useAuthStore";
+import useAuthStore from "@/hooks/stores/useAuthStore";
 
 interface FormState {
   name: string;

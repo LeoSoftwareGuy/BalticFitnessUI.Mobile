@@ -11,7 +11,7 @@ const apiClient = new APIClient<ExerciseStats>(
   "/Statistics/GetBestExerciseStats"
 );
 
-const useBestResult = (exerciseId: string, exerciseStatsType: TypeProps) =>
+const useBestResult = (exerciseId: number, exerciseStatsType: TypeProps) =>
   useQuery({
     queryKey: [exerciseStatsType, exerciseId],
     queryFn: () =>

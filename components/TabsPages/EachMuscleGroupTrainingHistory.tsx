@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   FlatList,
   StyleSheet,
   Text,
@@ -6,72 +7,52 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import allMuscleGroups from "@/constants/testMuscleGroups";
-import allExercises from "@/constants/testExercises";
 import FilterButton from "./FilterButton";
 import { Exercise } from "@/constants/types";
 import { router } from "expo-router";
+import useMuscleGroupsWithExercises from "@/hooks/useMuscleGroupsWithExercises";
 
-// You need to get all exercises from the db, and then simply filter them
-// based on chosen muscleGroup. I dont even think you need separate state
+
 const EachMuscleGroupTrainingHistory = () => {
+  const {
+    data: muscleGroups = [],
+    error,
+    isLoading,
+  } = useMuscleGroupsWithExercises();
+
   const [chosenMuscleGroupId, setChosenMuscleGroupId] = useState<number>();
-  const [exercises, setExercises] = useState<Exercise[]>([
-    {
-      id: "b6978e2d-bfd7-4b8c-bf0d-b99d1260183d",
-      muscleGroupId: 4,
-      name: "ArnoldPress",
-      imageUrl: "img/delts/ArnoldPress.jpg",
-    },
-    {
-      id: "65c5fa62-f772-4cbb-8391-4ff92e46e1f3",
-      muscleGroupId: 4,
-      name: "FrontDeltRaises",
-      imageUrl: "img/delts/FrontDeltRaises.jpg",
-    },
-    {
-      id: "52c5f2bc-17c3-46a5-ae58-7b211350b3cd",
-      muscleGroupId: 4,
-      name: "RearDeltsRaises",
-      imageUrl: "img/delts/RearDeltsRaises.jpg",
-    },
-    {
-      id: "cda4dd94-dc9c-43c4-98ee-66ea884f8cc0",
-      muscleGroupId: 4,
-      name: "ShouldBarbelSmithPress",
-      imageUrl: "img/delts/ShouldBarbelSmithPress.jpg",
-    },
-    {
-      id: "3a8ddb87-5c38-409f-923c-dfc0a9dd53ef",
-      muscleGroupId: 4,
-      name: "ShouldDumbellPress",
-      imageUrl: "img/delts/ShouldDumbellPress.jpg",
-    },
-    {
-      id: "606e00eb-04fc-4da3-9941-d3a3febd74d5",
-      muscleGroupId: 4,
-      name: "ShoulderHammerPress",
-      imageUrl: "img/delts/ShoulderHammerPress.jpg",
-    },
-    {
-      id: "3fe98bff-5456-4cc2-bce5-3ec3a50bacb2",
-      muscleGroupId: 4,
-      name: "StandingLateralRaises",
-      imageUrl: "img/delts/StandingLateralRaises.jpg",
-    },
-  ]);
+  const [exercises, setExercises] = useState<Exercise[]>([]);
 
   useEffect(() => {
     setExercises(
-      allExercises.filter((e) => e.muscleGroupId === chosenMuscleGroupId)
+      muscleGroups.filter((e) => e.id === chosenMuscleGroupId)[0].exercises
     );
   }, [chosenMuscleGroupId]);
+
+  if (isLoading) {
+    return (
+      <View style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#ffffff" />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.loaderContainer}>
+        <Text style={styles.errorText}>
+          Failed to load data. Please try again.
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View className="mt-[30px] w-ull bg-transparent ">
       <Text className="mb-[20px] font-pText text-white text-lg">Exercises</Text>
       <FlatList
-        data={allMuscleGroups}
+        data={muscleGroups}
         renderItem={({ item }) => (
           <FilterButton
             title={item.name}
@@ -113,5 +94,18 @@ const styles = StyleSheet.create({
     borderTopWidth: 0.2,
     borderBottomWidth: 0.2,
     borderColor: "#9A9A9A",
+  },
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    color: "#ffffff",
+    marginTop: 10,
+  },
+  errorText: {
+    color: "red",
+    marginTop: 10,
   },
 });

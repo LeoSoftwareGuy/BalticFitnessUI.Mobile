@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import React, { useMemo } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { BottomSheetView } from "@gorhom/bottom-sheet";
@@ -6,7 +6,7 @@ import useBestResult from "@/hooks/useBestResult";
 
 interface ExerciseResultProps {
   resultType: "Best" | "Last";
-  exerciseId: string;
+  exerciseId: number;
 }
 
 const ExerciseResult: React.FC<ExerciseResultProps> = ({
@@ -20,9 +20,28 @@ const ExerciseResult: React.FC<ExerciseResultProps> = ({
     return "Last Result";
   }, [resultType]);
 
-  const { data: exerciseStats } = useBestResult(exerciseId, {
+  const { data: exerciseStats, error, isLoading } = useBestResult(exerciseId, {
     type: resultType,
   });
+
+  if (isLoading) {
+    return (
+      <BottomSheetView style={styles.loaderContainer}>
+        <ActivityIndicator size="large" color="#ffffff" />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </BottomSheetView>
+    );
+  }
+
+  if (error) {
+    return (
+      <BottomSheetView style={styles.loaderContainer}>
+        <Text style={styles.errorText}>
+          Failed to load data. Please try again.
+        </Text>
+      </BottomSheetView>
+    );
+  }
 
   return (
     <LinearGradient
@@ -71,5 +90,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     gap: 20,
+  },
+
+  loaderContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    color: "#ffffff",
+    marginTop: 10,
+  },
+  errorText: {
+    color: "red",
+    marginTop: 10,
   },
 });
