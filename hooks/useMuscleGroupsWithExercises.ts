@@ -1,14 +1,14 @@
 import APIClient from "@/api/api-client";
 import { useQuery } from "@tanstack/react-query";
 import ms from "ms";
-import { MuscleGroup } from "@/constants/types";
+import { MuscleGroupDto } from "@/constants/types";
 
-const apiClient = new APIClient<MuscleGroup>("/MuscleGroups/GetMuscleGroupsWithExercises");
+const apiClient = new APIClient<MuscleGroupDto>("/MuscleGroups/GetMuscleGroupsWithExercises");
 
 const useMuscleGroupsWithExercises = () =>
   useQuery({
     queryKey: ["muscleGroupsWithExercises"],
-    queryFn: () => apiClient.getAll(),
+    queryFn: () => apiClient.getAllMuscleGroups(),
     staleTime: ms("24h"),
   });
 

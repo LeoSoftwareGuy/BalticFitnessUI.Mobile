@@ -4,7 +4,7 @@ import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { Exercise, ExerciseGroupDto, ExerciseSet } from "@/constants/types";
+import { ExerciseDto, ExerciseGroupDto, ExerciseSet } from "@/constants/types";
 import ExerciseResult from "@/app/exercisePage/components/ExerciseResult";
 import { largeExerciseImages } from "../../../constants/muscleGroupImages";
 import ExerciseParametersPicker from "./ExerciseParametersPicker";
@@ -12,7 +12,7 @@ import FitButton from "@/components/Buttons/FItButton";
 import useWorkoutsStore from "@/hooks/stores/useWorkoutsStore";
 
 interface Props {
-  exercise: Exercise;
+  exercise: ExerciseDto;
   onClose: () => void;
 }
 export interface ExerciseParameters {

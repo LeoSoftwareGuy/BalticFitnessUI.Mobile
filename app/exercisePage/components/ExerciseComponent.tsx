@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import { Exercise } from "@/constants/types";
+import { ExerciseDto } from "@/constants/types";
 import { exerciseImages } from "../../../constants/muscleGroupImages";
 
 interface ExerciseComponentProps {
-  exercise: Exercise;
+  exercise: ExerciseDto;
   onClick: () => void;
 }
 

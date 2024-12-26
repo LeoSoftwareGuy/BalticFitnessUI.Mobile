@@ -14,7 +14,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import images from "@/constants/images";
 import icons from "@/constants/icons";
 import ExerciseComponent from "@/app/exercisePage/components/ExerciseComponent";
-import { Exercise } from "@/constants/types";
+import { ExerciseDto } from "@/constants/types";
 import BottomSheet from "@gorhom/bottom-sheet";
 import BottomSheetSaveExerciseComponent from "@/app/exercisePage/components/BottomSheetSaveExerciseComponent";
 import useMuscleGroup from "@/hooks/useMuscleGroup";
@@ -28,7 +28,7 @@ const exercisePage = () => {
     error,
   } = useMuscleGroup(identifier);
 
-  const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(
+  const [selectedExercise, setSelectedExercise] = useState<ExerciseDto | null>(
     null
   );
 
@@ -46,7 +46,7 @@ const exercisePage = () => {
     }
   }, []);
 
-  const selectExercise = (exercise: Exercise) => {
+  const selectExercise = (exercise: ExerciseDto) => {
     setSelectedExercise(exercise);
     if (bottomSheetRef.current) {
       expandBottomSheet();

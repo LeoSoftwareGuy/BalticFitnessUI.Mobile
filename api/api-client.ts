@@ -3,7 +3,7 @@ import useAuthStore from "@/hooks/stores/useAuthStore";
 import { Alert } from "react-native";
 
 export const axiosInstance = axios.create({
-  baseURL: "http://192.168.1.182:7081/api", // Update to your local IP address
+  baseURL: "http://192.168.1.165:7081/api", // Update to your local IP address
   timeout: 5000, // Aborts request if no response in 5 seconds
   withCredentials: true, // Include cookies
 });
@@ -81,16 +81,28 @@ class APIClient<T> {
     }
   };
 
-  getAll = async (): Promise<T[]> => {
+  getAllMuscleGroups = async (): Promise<T[]> => {
     try {
-      const response = await axiosInstance.get<T[]>(this.endpoint);
-      return response.data;
+      const response = await axiosInstance.get<{ muscleGroupDtos: T[] }>(this.endpoint);
+      return response.data.muscleGroupDtos;
     } catch (error: any) {
       console.error("API Request failed:", error);
       Alert.alert("Error", error.message || "Request failed");
       return Promise.reject(error);
     }
   };
+
+  getMuscleGroup =  async (id: string | number): Promise<T> => {
+    try {
+      const response = await axiosInstance.get<{ muscleGroupDto: T }>(`${this.endpoint}/${id}`);
+      return response.data.muscleGroupDto;
+    } catch (error: any) {
+      console.error("API Request failed:", error);
+      Alert.alert("Error", error.message || "Request failed");
+      return Promise.reject(error);
+    }
+  };
+
 
   register = async (data: T): Promise<string> => {
     try {

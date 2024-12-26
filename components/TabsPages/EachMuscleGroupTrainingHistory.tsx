@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import FilterButton from "./FilterButton";
-import { Exercise } from "@/constants/types";
+import { ExerciseDto } from "@/constants/types";
 import { router } from "expo-router";
 import useMuscleGroupsWithExercises from "@/hooks/useMuscleGroupsWithExercises";
 
@@ -21,7 +21,7 @@ const EachMuscleGroupTrainingHistory = () => {
   } = useMuscleGroupsWithExercises();
 
   const [chosenMuscleGroupId, setChosenMuscleGroupId] = useState<number>();
-  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [exercises, setExercises] = useState<ExerciseDto[]>([]);
 
   useEffect(() => {
     setExercises(

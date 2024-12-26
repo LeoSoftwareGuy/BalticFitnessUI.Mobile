@@ -1,7 +1,7 @@
 import { eachMonthOfInterval } from "date-fns";
 
 // Type for Exercise
-export interface Exercise {
+export interface ExerciseDto {
   id: number;
   muscleGroupId: number;
   name: string;
@@ -28,12 +28,12 @@ export interface Training {
   exercisesPerMuscleGroup: Record<string, ExerciseGroupDto[]>;
 }
 
-export interface MuscleGroup {
+export interface MuscleGroupDto {
   id: number;
   name: string;
   imageUrl: string;
   type: string;
-  exercises: Exercise[];
+  exercises: ExerciseDto[];
 }
 
 export interface StatsSummaryBasedOnFilter {

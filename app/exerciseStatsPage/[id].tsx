@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { Exercise, ExerciseGroupDto } from "@/constants/types";
+import { ExerciseDto, ExerciseGroupDto } from "@/constants/types";
 import { icons, images } from "@/constants";
 import StoredExerciseInfo from "../(todaysWorkout)/components/StoredExerciseInfo";
 import { largeExerciseImages } from "@/constants/muscleGroupImages";
@@ -41,7 +41,7 @@ const exerciseStatsPage = () => {
           </Text>
         </View>
         <Image
-          source={largeExerciseImages[selectedExerciseSetsPerThreeMonths[0].id]}
+          source={largeExerciseImages[selectedExerciseSetsPerThreeMonths[0].exerciseSets[0].exerciseId]}
           resizeMode="contain"
           className="my-[36px] w-[full] h-[192px] rounded-lg"
         />

@@ -1,12 +1,12 @@
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { MuscleGroup } from "@/constants/types";
+import { MuscleGroupDto } from "@/constants/types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { router } from "expo-router";
 import { muscleGroupImages } from "../../constants/muscleGroupImages";
 
 interface MuscleGroupComponentProps {
-  muscleGroup: MuscleGroup;
+  muscleGroup: MuscleGroupDto;
 }
 
 const MuscleGroupComponent: React.FC<MuscleGroupComponentProps> = ({

@@ -27,7 +27,6 @@ const home = () => {
   }, []);
 
   const { data: muscleGroups = [], error } = useMuscleGroups();
-
   return (
     <ImageBackground source={images.logo} style={styles.background}>
       <SafeAreaView style={styles.container} edges={["left", "right"]}>
@@ -68,6 +67,10 @@ const home = () => {
           {error ? (
             <View>
               <Text>Something happened! Please refresh the page</Text>
+            </View>
+          ) : muscleGroups.length === 0 ? (
+            <View>
+              <Text className="text-white text-center">No muscle groups available.</Text>
             </View>
           ) : (
             <>
