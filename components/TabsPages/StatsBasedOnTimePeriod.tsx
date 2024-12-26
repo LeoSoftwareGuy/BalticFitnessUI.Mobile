@@ -28,9 +28,9 @@ const StatsBasedOnTimePeriod = () => {
     );
   }
 
-  const sessionsCount = stats?.sessionsCount || 0;
-  const exercisesCount = stats?.exercisesCount || 0;
-  const muscleGroupsCount = stats?.muscleGroupsCount || 0;
+  let sessionsCount = stats?.sessionsCount || 0;
+  let exercisesCount = stats?.exercisesCount || 0;
+  let muscleGroupsCount = stats?.muscleGroupsCount || 0;
 
   return (
     <View className="mt-[32px] w-full">

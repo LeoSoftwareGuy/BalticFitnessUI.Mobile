@@ -4,7 +4,7 @@ import { BottomSheetView } from '@gorhom/bottom-sheet';
 
 interface BottomSheetExerciseInfoProps {
     reps:number;
-    weight:number;
+    weight:string;
 }
 
 const BottomSheetExerciseInfo:React.FC<BottomSheetExerciseInfoProps> = ({reps,weight}) => {
