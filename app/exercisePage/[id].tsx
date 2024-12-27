@@ -48,6 +48,7 @@ const exercisePage = () => {
 
   const selectExercise = (exercise: ExerciseDto) => {
     setSelectedExercise(exercise);
+    console.log("exercise", exercise);
     if (bottomSheetRef.current) {
       expandBottomSheet();
     }

@@ -73,7 +73,9 @@ class APIClient<T> {
       const response = await axiosInstance.get<T>(
         `${this.endpoint}/${id}/${type}`
       );
-      return response.data;
+
+      const {exerciseStats} = response.data as any;
+      return exerciseStats ?? response.data;  // Fallback to data if destructuring fails
     } catch (error: any) {
       console.error("API Request failed:", error);
       Alert.alert("Error", error.message || "Request failed");

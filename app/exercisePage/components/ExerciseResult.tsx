@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 20,
   },
-
   loaderContainer: {
     flex: 1,
     justifyContent: "center",
@@ -104,5 +103,10 @@ const styles = StyleSheet.create({
   errorText: {
     color: "red",
     marginTop: 10,
+  },
+  noDataText: {
+    color: "#cccccc",
+    marginTop: 10,
+    fontSize: 16,
   },
 });
