@@ -175,8 +175,13 @@ class APIClient<T> {
 
 
   saveTraining = async (data: T): Promise<string> => {
+    const fullUrl = `${axiosInstance.defaults.baseURL}${this.endpoint}`;
+
+    const payload = {
+      exerciseSets: data,
+    };
     try {
-      const response = await axiosInstance.post(this.endpoint, data);
+      const response = await axiosInstance.post(this.endpoint, payload);
       return response.data;
     } catch (error: any) {
       console.error("API Request failed:", error);

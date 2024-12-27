@@ -73,7 +73,7 @@ const todaysWorkout = () => {
             data={todaysWorkoutFromLocalStorage}
             renderItem={({ item }) => (
               <StoredExerciseInfo
-                uniqueExercise={item}
+                uniqueExercise={item.exerciseSets}
                 exerciseInfo={item.name}
               />
             )}
