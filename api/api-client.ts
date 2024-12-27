@@ -60,7 +60,6 @@ class APIClient<T> {
   getSingle = async (id: string | number): Promise<T> => {
     try {
       const response = await axiosInstance.get<T>(`${this.endpoint}${id}`);
-      console.log("Full API Response:", response);
       return response.data;
     } catch (error: any) {
       console.error("API Request failed:", error);
@@ -115,7 +114,6 @@ class APIClient<T> {
   getAll = async (): Promise<T[]> => {
     try {
       const response = await axiosInstance.get<T[]>(this.endpoint);
-      console.log(response);
       return response.data;
     } catch (error: any) {
       console.error("API Request failed:", error);
@@ -152,6 +150,20 @@ class APIClient<T> {
     try {
       const response = await axiosInstance.post(this.endpoint, data);
       return response.data;
+    } catch (error: any) {
+      console.error("API Request failed:", error);
+      Alert.alert("Error", error.message || "Request failed");
+      return Promise.reject(error);
+    }
+  };
+
+
+  getAllTrainings = async (): Promise<T[]> => {
+    try {
+      const response = await axiosInstance.get<T[]>(this.endpoint);
+      const { sortedByDayTrainingDtos } = response.data as any;
+//   public record GetTrainingsSortedByDayResult(List<SortedByDayTraining> SortedByDayTrainingDtos);
+      return sortedByDayTrainingDtos ?? response.data;  
     } catch (error: any) {
       console.error("API Request failed:", error);
       Alert.alert("Error", error.message || "Request failed");

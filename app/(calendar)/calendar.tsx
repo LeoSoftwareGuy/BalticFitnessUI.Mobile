@@ -5,15 +5,17 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Calendar, DateData } from "react-native-calendars";
 import { SafeAreaView, ScrollView } from "react-native";
 import BottomSheetComponent from "@/app/(calendar)/components/BottomSheetCalendarComponent";
+import useAllTrainings from "@/hooks/useAllTrainings";
+import LoadingIndicator from "@/components/LoadingIndicator";
+import ErrorMessage from "@/components/ErrorMessage";
 
 export default function CalendarPage() {
 
-    const {
-        data: allTrainings,
-        isLoading,
-        error,
-      } = useAllTrainings();
-
+  const {
+    data: allTrainings,
+    isLoading,
+    error,
+  } = useAllTrainings();
 
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth() + 1
@@ -24,7 +26,6 @@ export default function CalendarPage() {
   const [selectedTraining, setSelectedTraining] = useState<Training | null>(
     null
   );
-
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -48,8 +49,8 @@ export default function CalendarPage() {
     setSelectedTraining(trainingForDay);
 
     if (bottomSheetRef.current) {
-      expandBottomSheet(); 
-     }
+      expandBottomSheet();
+    }
   };
 
   const onClose = () => closeBottomSheet();
@@ -58,12 +59,13 @@ export default function CalendarPage() {
     const newMarkedDates: { [key: string]: any } = {};
 
     // Filter trainings for the current month
-    const trainingsForCurrentMonth = allTrainings.filter(
+    const trainingsForCurrentMonth = allTrainings?.filter(
       (training) => training.trainedAtMonth === currentMonth
     );
 
+
     // Mark the dates for this month
-    trainingsForCurrentMonth.forEach((training) => {
+    trainingsForCurrentMonth?.forEach((training) => {
       const trainingDate = `${training.trainedAtYear}-${String(
         training.trainedAtMonth
       ).padStart(2, "0")}-${String(training.trainedAtDay).padStart(2, "0")}`;
@@ -72,8 +74,8 @@ export default function CalendarPage() {
         marked: true,
         disableTouchEvent: false,
         training: training,
-        dotColor:"#2AB38E",
-     
+        dotColor: "#2AB38E",
+
       };
     });
 
@@ -82,43 +84,46 @@ export default function CalendarPage() {
 
   return (
     <>
-      <SafeAreaView className="h-full bg-primary ">
-        <ScrollView>
-          <Calendar
-            theme={{
-              calendarBackground: "transparent",
-              textSectionTitleColor: "#ffffff",
-              selectedDayBackgroundColor: "#2AB38E",
-              selectedDayTextColor: "#ffffff",
-              todayTextColor: "#2AB38E",
-              dayTextColor: "#ffffff",
-              textDisabledColor: "transparent",
-              monthTextColor: "#2AB38E",
-              textMonthFontSize: 20,
-              arrowColor: "#ffffff",
-              textMonthFontFamily: "font-pRegular",
-            }}
-            disableMonthChange={false}
-            current={`${currentYear}-${String(currentMonth).padStart(
-              2,
-              "0"
-            )}-01`}
-            enableSwipeMonths={true}
-            onDayPress={(day: DateData) => {
-              if (markedDates[day.dateString]) {
-                selectTrainingDay(day);
-              }
-            }}
-            onMonthChange={(month: DateData) => {
-              setCurrentMonth(month.month);
-              setCurrentYear(month.year);
-              setSelected("");
-              setSelectedTraining(null);
-              closeBottomSheet();
-            }}
-            markedDates={{ ...markedDates }}
-          />
-        </ScrollView>
+      <SafeAreaView className="h-full bg-primary">
+        {isLoading ? (
+          <LoadingIndicator />
+        ) : error ? (
+          <ErrorMessage message="Failed to load trainings. Please try again." />
+        ) : (
+          <ScrollView>
+            <Calendar
+              theme={{
+                calendarBackground: "transparent",
+                textSectionTitleColor: "#ffffff",
+                selectedDayBackgroundColor: "#2AB38E",
+                selectedDayTextColor: "#ffffff",
+                todayTextColor: "#2AB38E",
+                dayTextColor: "#ffffff",
+                textDisabledColor: "transparent",
+                monthTextColor: "#2AB38E",
+                textMonthFontSize: 20,
+                arrowColor: "#ffffff",
+                textMonthFontFamily: "font-pRegular",
+              }}
+              disableMonthChange={false}
+              current={`${currentYear}-${String(currentMonth).padStart(2, "0")}-01`}
+              enableSwipeMonths={true}
+              onDayPress={(day: DateData) => {
+                if (markedDates[day.dateString]) {
+                  selectTrainingDay(day);
+                }
+              }}
+              onMonthChange={(month: DateData) => {
+                setCurrentMonth(month.month);
+                setCurrentYear(month.year);
+                setSelected("");
+                setSelectedTraining(null);
+                closeBottomSheet();
+              }}
+              markedDates={{ ...markedDates }}
+            />
+          </ScrollView>
+        )}
 
         {selectedTraining && (
           <BottomSheetComponent
@@ -131,4 +136,5 @@ export default function CalendarPage() {
       </SafeAreaView>
     </>
   );
+
 }

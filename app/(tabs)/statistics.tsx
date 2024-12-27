@@ -16,7 +16,7 @@ import StatsBasedOnTimePeriod from "../../components/TabsPages/StatsBasedOnTimeP
 import EachMuscleGroupTrainingHistory from "@/components/TabsPages/EachMuscleGroupTrainingHistory";
 
 const statistics = () => {
-  //  CookieManager.clearAll();
+    // CookieManager.clearAll();
   return (
     <ImageBackground source={images.logo} style={styles.background}>
       <SafeAreaView style={styles.container} edges={["left", "right"]}>

@@ -3,13 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import ms from "ms";
 import {Training } from "@/constants/types";
 
-const apiClient = new APIClient<Training[]>("/MuscleGroups/GetMuscleGroups");
+const apiClient = new APIClient<Training>("/Fitness/GetTrainings");
 
-const useMuscleGroups = () =>
+const useAllTrainings = () =>
   useQuery({
-    queryKey: ["muscleGroups"],
-    queryFn: () => apiClient.getAllMuscleGroups(),
+    queryKey: ["trainings"],
+    queryFn: () => apiClient.getAllTrainings(),
     staleTime: ms("24h"),
   });
 
-export default useMuscleGroups;
+export default useAllTrainings;
