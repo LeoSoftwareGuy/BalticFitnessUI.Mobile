@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import FilterButton from "./FilterButton";
 import { ExerciseDto } from "@/constants/types";
 import { router } from "expo-router";
@@ -20,14 +20,20 @@ const EachMuscleGroupTrainingHistory = () => {
     isLoading,
   } = useMuscleGroupsWithExercises();
 
-  const [chosenMuscleGroupId, setChosenMuscleGroupId] = useState<number>();
+  const [chosenMuscleGroupId, setChosenMuscleGroupId] = useState<number>(1);
   const [exercises, setExercises] = useState<ExerciseDto[]>([]);
 
-  useEffect(() => {
-    setExercises(
-      muscleGroups.filter((e) => e.id === chosenMuscleGroupId)[0].exercises
-    );
-  }, [chosenMuscleGroupId]);
+  const selectExercisesBasedOnMuscleGroup = useCallback((id: number) => {
+    console.log("id", id);
+    const selectedMuscleGroup = muscleGroups.find((e) => e.id === id );
+    if (selectedMuscleGroup) {
+      setExercises(selectedMuscleGroup.exercises);
+      setChosenMuscleGroupId(id);
+    } else {
+      setExercises([]);
+    }
+  },[ [chosenMuscleGroupId, muscleGroups]]);
+
 
   if (isLoading) {
     return (
@@ -56,7 +62,7 @@ const EachMuscleGroupTrainingHistory = () => {
         renderItem={({ item }) => (
           <FilterButton
             title={item.name}
-            onClick={() => setChosenMuscleGroupId(item.id)}
+            onClick={() => selectExercisesBasedOnMuscleGroup(item.id)}
             isSelected={chosenMuscleGroupId === item.id}
           />
         )}

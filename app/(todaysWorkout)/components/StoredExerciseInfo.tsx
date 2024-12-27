@@ -1,11 +1,11 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { ExerciseGroupDto } from "@/constants/types";
+import { ExerciseSet } from "@/constants/types";
 import { LinearGradient } from "expo-linear-gradient";
 import StoreExerciseSetInfo from "./StoreExerciseSetInfo";
 
 interface StoredExerciseInfoProps {
-  uniqueExercise: ExerciseGroupDto;
+  uniqueExercise: ExerciseSet[];
   exerciseInfo: string;
 }
 
@@ -26,7 +26,7 @@ const StoredExerciseInfo: React.FC<StoredExerciseInfoProps> = ({
           {exerciseInfo}
         </Text>
         <FlatList
-          data={uniqueExercise.exerciseSets}
+          data={uniqueExercise}
           renderItem={({ item }) => (
             <StoreExerciseSetInfo reps={item.reps} weight={item.weight} />
           )}

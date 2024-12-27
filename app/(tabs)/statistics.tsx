@@ -9,12 +9,14 @@ import {
 } from "react-native";
 import React from "react";
 import { icons, images } from "@/constants";
+import CookieManager from "@react-native-cookies/cookies";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import StatsBasedOnTimePeriod from "../../components/TabsPages/StatsBasedOnTimePeriod";
 import EachMuscleGroupTrainingHistory from "@/components/TabsPages/EachMuscleGroupTrainingHistory";
 
 const statistics = () => {
+  //  CookieManager.clearAll();
   return (
     <ImageBackground source={images.logo} style={styles.background}>
       <SafeAreaView style={styles.container} edges={["left", "right"]}>

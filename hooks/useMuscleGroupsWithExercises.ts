@@ -8,7 +8,7 @@ const apiClient = new APIClient<MuscleGroupDto>("/MuscleGroups/GetMuscleGroupsWi
 const useMuscleGroupsWithExercises = () =>
   useQuery({
     queryKey: ["muscleGroupsWithExercises"],
-    queryFn: () => apiClient.getAllMuscleGroups(),
+    queryFn: () => apiClient.getAll(),
     staleTime: ms("24h"),
   });
 

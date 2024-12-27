@@ -15,6 +15,7 @@ import { DateSlider } from "@/components/DateSlider";
 import { format } from "date-fns";
 import { ScrollView } from "react-native-gesture-handler";
 import useMuscleGroups from "@/hooks/useMuscleGroups";
+import { Cookies } from '@react-native-cookies/cookies';
 
 const home = () => {
   const today = new Date();

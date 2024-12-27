@@ -53,3 +53,8 @@ export interface ExerciseStats {
   sets: number;
   weight: string;
 }
+
+export interface ExerciseStatsLastThreeMonths {
+  exerciseName: string;
+  exerciseHistory: Record<string, ExerciseSet[]>;
+}

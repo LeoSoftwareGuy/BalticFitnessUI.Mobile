@@ -4,7 +4,7 @@ import { Alert } from "react-native";
 
 export const axiosInstance = axios.create({
   baseURL: "http://192.168.1.165:7081/api", // Update to your local IP address
-  timeout: 5000, // Aborts request if no response in 5 seconds
+  timeout: 50000, // Aborts request if no response in 5 seconds
   withCredentials: true, // Include cookies
 });
 
@@ -36,7 +36,7 @@ axiosInstance.interceptors.response.use(
 async function refreshToken() {
   const authState = useAuthStore.getState();
   try {
-    const response = await axios.post("/Auth/refresh");
+    const response = await axios.post("/Auth/refresh", {}, { withCredentials: true });
     const newAccessToken = response.data; // access token as a string
     authState.setAccessToken(newAccessToken);
 
@@ -59,7 +59,8 @@ class APIClient<T> {
 
   getSingle = async (id: string | number): Promise<T> => {
     try {
-      const response = await axiosInstance.get<T>(`${this.endpoint}/${id}`);
+      const response = await axiosInstance.get<T>(`${this.endpoint}${id}`);
+      console.log("Full API Response:", response);
       return response.data;
     } catch (error: any) {
       console.error("API Request failed:", error);
@@ -81,9 +82,52 @@ class APIClient<T> {
     }
   };
 
+
+  getExerciseHistory = async (id: string | number): Promise<T> => {
+    try {
+      const response = await axiosInstance.get<T>(`${this.endpoint}/${id}`);
+      const { exerciseStatsLastThreeMonths } = response.data as any;
+      
+      return exerciseStatsLastThreeMonths ?? response.data;
+    } catch (error: any) {
+      console.error("API Request failed:", error);
+      Alert.alert("Error", error.message || "Request failed");
+      return Promise.reject(error);
+    }
+  };
+
+
+  getStats = async (filterBy: string): Promise<T> => {
+    try {
+      const response = await axiosInstance.get<T>(
+        `${this.endpoint}${filterBy}`
+      );
+      const { summaryInfoBasedOnFilter } = response.data as any;
+
+      return summaryInfoBasedOnFilter ?? response.data;  // Fallback to data if destructuring fails
+    } catch (error: any) {
+      console.error("API Request failed:", error);
+      Alert.alert("Error", error.message || "Request failed");
+      return Promise.reject(error);
+    }
+  };
+
+  getAll = async (): Promise<T[]> => {
+    try {
+      const response = await axiosInstance.get<T[]>(this.endpoint);
+      console.log(response);
+      return response.data;
+    } catch (error: any) {
+      console.error("API Request failed:", error);
+      Alert.alert("Error", error.message || "Request failed");
+      return Promise.reject(error);
+    }
+  };
+
+
   getAllMuscleGroups = async (): Promise<T[]> => {
     try {
-      const response = await axiosInstance.get<{ muscleGroupDtos: T[] }>(this.endpoint);
+      const response = await axiosInstance.get<{ muscleGroupDtos: T[] }>(this.endpoint); // wrapped in muscleGroupDtos
       return response.data.muscleGroupDtos;
     } catch (error: any) {
       console.error("API Request failed:", error);
@@ -92,7 +136,7 @@ class APIClient<T> {
     }
   };
 
-  getMuscleGroup =  async (id: string | number): Promise<T> => {
+  getMuscleGroup = async (id: string | number): Promise<T> => {
     try {
       const response = await axiosInstance.get<{ muscleGroupDto: T }>(`${this.endpoint}/${id}`);
       return response.data.muscleGroupDto;
@@ -116,7 +160,7 @@ class APIClient<T> {
   };
 
 
-  saveTraining = async (data:T): Promise<string> => {
+  saveTraining = async (data: T): Promise<string> => {
     try {
       const response = await axiosInstance.post(this.endpoint, data);
       return response.data;

@@ -4,10 +4,17 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Calendar, DateData } from "react-native-calendars";
 import { SafeAreaView, ScrollView } from "react-native";
-import allTrainings from "@/constants/testTrainingDays";
 import BottomSheetComponent from "@/app/(calendar)/components/BottomSheetCalendarComponent";
 
 export default function CalendarPage() {
+
+    const {
+        data: allTrainings,
+        isLoading,
+        error,
+      } = useAllTrainings();
+
+
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth() + 1
   );

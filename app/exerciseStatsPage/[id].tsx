@@ -7,23 +7,45 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { ExerciseDto, ExerciseGroupDto } from "@/constants/types";
 import { icons, images } from "@/constants";
 import StoredExerciseInfo from "../(todaysWorkout)/components/StoredExerciseInfo";
 import { largeExerciseImages } from "@/constants/muscleGroupImages";
-import allTrainings from "@/constants/testTrainingDays";
+import useExerciseHistory from "@/hooks/useExerciseHistory";
 
-// Ask api for exercise sets of chosen exercise based on its Id
-const exerciseStatsPage = () => {
+const ExerciseStatsPage = () => {
   const { id } = useLocalSearchParams();
-  const [isLoading, setIsLoading] = useState(false);
-  //const selectedExerciseSetsPerThreeMonths: ExerciseGroupDto[] = [];
-  const selectedExerciseSetsPerThreeMonths = Object.values(
-    allTrainings[0].exercisesPerMuscleGroup
-  ).flat();
+  const exerciseId = Array.isArray(id) ? id.join(", ") : id || "";
+  const {
+    data: exerciseHistory,
+    isLoading,
+    error,
+  } = useExerciseHistory(exerciseId);
+
+  const selectedExerciseSets = exerciseHistory
+    ? Object.values(exerciseHistory.exerciseHistory).flat()
+    : [];
+
+    
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#fff" />
+        <Text style={styles.loadingText}>Loading Exercise History...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>Failed to load exercise data.</Text>
+      </View>
+    );
+  }
 
   return (
     <ImageBackground source={images.logo} style={styles.background}>
@@ -37,21 +59,35 @@ const exerciseStatsPage = () => {
             />
           </TouchableOpacity>
           <Text className="flex-1 text-center font-pText text-xl text-white">
-            {selectedExerciseSetsPerThreeMonths[0].name}
+            {exerciseHistory?.exerciseName || "Exercise Stats"}
           </Text>
         </View>
-        <Image
-          source={largeExerciseImages[selectedExerciseSetsPerThreeMonths[0].exerciseSets[0].exerciseId]}
-          resizeMode="contain"
-          className="my-[36px] w-[full] h-[192px] rounded-lg"
-        />
+
+        {selectedExerciseSets.length > 0 ? (
+          <Image
+            source={
+              largeExerciseImages[
+              selectedExerciseSets[0].exerciseId ]
+            }
+            resizeMode="contain"
+            className="my-[36px] w-[full] h-[192px] rounded-lg"
+          />
+        ) : (
+          <Text className="text-center text-lg text-white">
+            No records found.
+          </Text>
+        )}
+
         <Text className="font-pText text-xl text-white">Last 3 months</Text>
         <FlatList
-          data={selectedExerciseSetsPerThreeMonths}
+          data={Object.entries(exerciseHistory?.exerciseHistory || {})}
           renderItem={({ item }) => (
-            <StoredExerciseInfo uniqueExercise={item} exerciseInfo="14.11.2024" />
+            <StoredExerciseInfo
+              uniqueExercise={item[1]}
+              exerciseInfo={item[0].slice(0, 10)} 
+            />
           )}
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item) => item[0]}
           contentContainerStyle={styles.contentContainer}
         />
       </SafeAreaView>
@@ -59,7 +95,7 @@ const exerciseStatsPage = () => {
   );
 };
 
-export default exerciseStatsPage;
+export default ExerciseStatsPage;
 
 const styles = StyleSheet.create({
   background: {
@@ -71,5 +107,23 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingVertical: 20,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    color: "#fff",
+    marginTop: 10,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 16,
   },
 });
